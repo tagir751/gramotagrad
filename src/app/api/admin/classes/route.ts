@@ -13,7 +13,7 @@
 import { NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { requireAdmin, logAction } from '@/lib/auth'
-import { idSchema, classCreateSchema, classUpdateSchema } from '@/lib/validators'
+import { classCreateSchema, classUpdateSchema } from '@/lib/validators'
 import { handleApiError } from '@/lib/api'
 
 // GET /api/admin/classes — список всех классов.
@@ -33,7 +33,7 @@ export async function GET() {
 // POST /api/admin/classes — создать класс.
 export async function POST(req: Request) {
   try {
-    await requireAdmin()
+    const session = await requireAdmin()
     const parsed = classCreateSchema.safeParse(await req.json())
     if (!parsed.success) return NextResponse.json({ error: 'Некорректные данные' }, { status: 400 })
 
@@ -41,7 +41,7 @@ export async function POST(req: Request) {
     if (existing) return NextResponse.json({ error: 'Класс с таким именем уже есть' }, { status: 400 })
 
     const cls = await db.class.create({ data: { name: parsed.data.name } })
-    await logAction((await requireAdmin()).teacherId, 'class_create', `Class ${cls.name}`)
+    await logAction(session.teacherId, 'class_create', `Class ${cls.name}`)
     return NextResponse.json(cls, { status: 201 })
   } catch (e) {
     return handleApiError(e)

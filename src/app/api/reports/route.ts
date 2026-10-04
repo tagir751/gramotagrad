@@ -69,7 +69,7 @@ export async function GET(req: Request) {
       const d = new Date(dateTo)
       if (isNaN(d.getTime())) return NextResponse.json({ error: 'Invalid dateTo' }, { status: 400 })
       lessonWhere.date = { ...lessonWhere.date, lte: dateTo }
-      gradeWhere.lesson = { ...gradeWhere.lesson?.date, lte: dateTo }
+      gradeWhere.lesson = { ...gradeWhere.lesson, date: { ...gradeWhere.lesson?.date, lte: dateTo } }
     }
 
     // For non-admin, restrict to own classes if no explicit filters

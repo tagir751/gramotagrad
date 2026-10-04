@@ -171,8 +171,17 @@ export const recommendationCreateSchema = z.object({
   text: z.string().trim().min(3).max(2000),
 })
 
+/**
+ * Булев флаг из query-строки.
+ * z.coerce.boolean() здесь непригоден: это Boolean(value), поэтому строка
+ * "false" (как и "0") даёт true, и ?all=false вело себя как ?all=true.
+ */
+const queryBool = z
+  .enum(['true', 'false', '1', '0'])
+  .transform((v) => v === 'true' || v === '1')
+
 export const recommendationQuerySchema = z.object({
   studentId: idSchema.optional(),
-  all: z.coerce.boolean().optional(),
-  history: z.coerce.boolean().optional(),
+  all: queryBool.optional(),
+  history: queryBool.optional(),
 })

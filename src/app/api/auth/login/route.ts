@@ -6,6 +6,16 @@ import { logAction } from '@/lib/auth'
 import { loginStep2Schema } from '@/lib/validators'
 import { handleApiError, rateLimit } from '@/lib/api'
 
+/**
+ * Фиктивный scrypt-хеш валидного формата для несуществующих teacherId.
+ * verifyPassword против него всегда даёт false, но тратит столько же времени,
+ * сколько настоящая проверка, — это и выравнивает тайминг.
+ */
+const DUMMY_HASH =
+  'scrypt$16384$8$1$' +
+  '00000000000000000000000000000000$' +
+  '0'.repeat(128)
+
 // POST /api/auth/login { teacherId, password }
 // Единый нейтральный 401 без enumeration. Rate-limit 5/мин с IP.
 export async function POST(req: Request) {
@@ -17,9 +27,18 @@ export async function POST(req: Request) {
     const body = loginStep2Schema.parse(await req.json())
 
     const teacher = await db.teacher.findUnique({ where: { id: body.teacherId } })
-    // Нейтральный ответ + фиктивная проверка времени, чтобы не палить существование id
-    if (!teacher || !(await verifyPassword(body.password, teacher.passwordHash))) {
-      await logAction(body.teacherId, 'login_fail', 'Неудачный вход', ip).catch(() => {})
+
+    // Нейтральный ответ + ВЫРАВНИВАНИЕ ВРЕМЕНИ. Раньше здесь было короткое
+    // замыкание `!teacher || !(await verify(...))`: для несуществующего id
+    // ответ приходил мгновенно, для существующего — после scrypt (~100 мс),
+    // то есть id перебирались по таймингу. Теперь scrypt выполняется всегда.
+    const ok = await verifyPassword(body.password, teacher?.passwordHash ?? DUMMY_HASH)
+    if (!teacher || !ok) {
+      // ActionLog.teacherId — внешний ключ, поэтому запись о неудачной попытке
+      // для несуществующего id раньше молча проваливалась (FK violation внутри
+      // logAction). Логируем только то, что реально можно записать.
+      if (teacher) await logAction(teacher.id, 'login_fail', 'Неудачный вход', ip)
+      else console.warn(`login_fail: несуществующий teacherId=${body.teacherId} ip=${ip}`)
       return NextResponse.json({ error: 'Неверные данные' }, { status: 401 })
     }
 

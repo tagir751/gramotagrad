@@ -13,7 +13,7 @@
 import { NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { requireAdmin, logAction } from '@/lib/auth'
-import { idSchema, subjectCreateSchema, subjectUpdateSchema } from '@/lib/validators'
+import { subjectCreateSchema, subjectUpdateSchema } from '@/lib/validators'
 import { handleApiError } from '@/lib/api'
 
 export async function GET() {
@@ -31,7 +31,7 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
-    await requireAdmin()
+    const session = await requireAdmin()
     const parsed = subjectCreateSchema.safeParse(await req.json())
     if (!parsed.success) return NextResponse.json({ error: 'Некорректные данные' }, { status: 400 })
 
@@ -39,7 +39,7 @@ export async function POST(req: Request) {
     if (existing) return NextResponse.json({ error: 'Предмет с таким именем уже есть' }, { status: 400 })
 
     const subj = await db.subject.create({ data: { name: parsed.data.name } })
-    await logAction((await requireAdmin()).teacherId, 'subject_create', `Subject ${subj.name}`)
+    await logAction(session.teacherId, 'subject_create', `Subject ${subj.name}`)
     return NextResponse.json(subj, { status: 201 })
   } catch (e) {
     return handleApiError(e)

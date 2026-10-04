@@ -12,7 +12,7 @@
  */
 import { NextResponse } from 'next/server'
 import { db } from '@/lib/db'
-import { requireAdmin, logAction } from '@/lib/auth'
+import { requireAdmin, logAction, ApiError } from '@/lib/auth'
 import { handleApiError } from '@/lib/api'
 import * as XLSX from 'xlsx'
 
@@ -26,9 +26,20 @@ export async function GET(req: Request) {
     const dateFrom = url.searchParams.get('dateFrom')
     const dateTo = url.searchParams.get('dateTo')
 
+    // Числовые фильтры валидируем: parseInt('abc') давал NaN, Prisma падала,
+    // и админ получал 500 вместо понятного 400.
+    const parseId = (raw: string | null, field: string): number | undefined => {
+      if (!raw) return undefined
+      const n = Number(raw)
+      if (!Number.isInteger(n) || n <= 0) throw new ApiError(400, `Некорректный ${field}`)
+      return n
+    }
+    const classIdNum = parseId(classId, 'classId')
+    const subjectIdNum = parseId(subjectId, 'subjectId')
+
     const lessonWhere: any = {}
-    if (classId) lessonWhere.classId = parseInt(classId, 10)
-    if (subjectId) lessonWhere.subjectId = parseInt(subjectId, 10)
+    if (classIdNum !== undefined) lessonWhere.classId = classIdNum
+    if (subjectIdNum !== undefined) lessonWhere.subjectId = subjectIdNum
     if (dateFrom) lessonWhere.date = { ...lessonWhere.date, gte: dateFrom }
     if (dateTo) lessonWhere.date = { ...lessonWhere.date, lte: dateTo }
 
@@ -58,7 +69,7 @@ export async function GET(req: Request) {
     }
 
     if (type === 'full' || type === 'students') {
-      const where = classId ? { classId: parseInt(classId, 10) } : {}
+      const where = classIdNum !== undefined ? { classId: classIdNum } : {}
       const students = await db.student.findMany({ where, include: { class: { select: { name: true } } }, orderBy: [{ class: { name: 'asc' } }, { fullName: 'asc' }] })
       const sheet = XLSX.utils.json_to_sheet(students.map(s => ({
         id: s.id, fullName: s.fullName, active: s.active, classId: s.classId, className: s.class?.name, createdAt: s.createdAt.toISOString(),

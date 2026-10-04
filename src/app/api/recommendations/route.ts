@@ -57,8 +57,11 @@ export async function GET(req: Request) {
       studentFilter = { classId: { in: [...new Set([...ownClasses.map((c) => c.id), ...respClasses.map((r) => r.classId)])] } }
     }
 
+    // all=true (по всем ученикам) и history=true (по одному) одинаково означают
+    // «включая погашенные». Раньше history разбирался схемой, но игнорировался.
+    const includeArchived = all === true || history === true
     const whereBase = { student: studentFilter }
-    const where = all ? whereBase : { ...whereBase, isCurrent: true }
+    const where = includeArchived ? whereBase : { ...whereBase, isCurrent: true }
 
     const recommendations = await db.recommendation.findMany({
       where,

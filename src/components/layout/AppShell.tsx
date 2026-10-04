@@ -11,7 +11,9 @@ const items = [
   { href: '/students', label: 'Ученики', icon: '👨‍🎓' },
   { href: '/reports', label: 'Отчёты', icon: '📊' },
   { href: '/vospitanie', label: 'Воспитание', icon: '💛' },
-  { href: '/logs', label: 'Логи', icon: '📝' },
+  // Пункт «Логи» убран: страницы /logs и роута /api/logs в проекте нет,
+  // ссылка вела в 404 (и показывалась всем, а не только админу).
+  // Данные в ActionLog пишутся и доступны через «Экспорт → logs».
 ]
 
 function navClass(active: boolean): string {

@@ -14,7 +14,7 @@
 import { NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { requireAdmin, logAction } from '@/lib/auth'
-import { idSchema, responsibleSchema } from '@/lib/validators'
+import { responsibleSchema } from '@/lib/validators'
 import { handleApiError } from '@/lib/api'
 
 // GET /api/admin/responsible — список ответственных по классам.

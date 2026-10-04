@@ -11,7 +11,8 @@
  *   ученик сверяется с классом урока. Несуществующая запись → нейтральный 403.
  * ЧТО ЧИТАЕТСЯ ИЗ БД: Grade, Lesson.classId, Student.classId.
  * ЧТО ПИШЕТСЯ В БД: upsert/update Grade; правило очистки: value='' И comment=''
- *   → DELETE записи (POST/PATCH), PUT с обоими пустыми тоже удаляет.
+ *   → DELETE записи (POST/PATCH). PUT удаляет, только если пустой окажется
+ *   ИТОГОВАЯ запись: непереданное поле сохраняет текущее значение из БД.
  *   Комментарий без оценки (value='', comment='текст') — храним.
  * ОШИБКИ: 401/400/403 как выше; 404 только если урок пропал между проверками.
  * ЧТО ВИДИТ ПОЛЬЗОВАТЕЛЬ: запись / {ok, count} / ошибку текстом.
@@ -76,13 +77,17 @@ export async function PUT(req: Request) {
     }
     const existing = await db.grade.findUnique({
       where: { id: parsed.data.id },
-      select: { lessonId: true },
+      select: { lessonId: true, value: true, comment: true },
     })
     if (!existing) return NextResponse.json({ error: 'Нет доступа' }, { status: 403 })
     await requireLessonAccess(session.teacherId, existing.lessonId)
 
-    // Правило очистки для PUT: оба поля пустые → удалить запись.
-    if (parsed.data.value === '' && (parsed.data.comment ?? '') === '') {
+    // Правило очистки для PUT: удаляем, только если ИТОГОВАЯ запись пуста.
+    // Непереданное поле = «не трогать», поэтому берём текущее значение из БД,
+    // иначе {id, value:''} затирал бы существующий комментарий учителя.
+    const nextValue = parsed.data.value ?? existing.value
+    const nextComment = parsed.data.comment ?? existing.comment
+    if (nextValue === '' && nextComment === '') {
       await db.grade.delete({ where: { id: parsed.data.id } })
       await logAction(session.teacherId, 'grade_update', `Grade #${parsed.data.id} cleared`)
       return NextResponse.json({ ok: true, cleared: true })

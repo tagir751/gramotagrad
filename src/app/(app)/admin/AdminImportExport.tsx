@@ -17,7 +17,6 @@ const TYPES = ['full', 'teachers', 'classes', 'subjects', 'students', 'lessons',
 
 export function AdminImportExport() {
   const [importFile, setImportFile] = useState<File | null>(null)
-  const [importMode, setImportMode] = useState<'add' | 'replace'>('add')
   const [exportType, setExportType] = useState<'full' | 'teachers' | 'classes' | 'subjects' | 'students' | 'lessons' | 'grades' | 'recommendations' | 'logs'>('full')
   const [classId, setClassId] = useState('')
   const [dateFrom, setDateFrom] = useState('')
@@ -39,7 +38,18 @@ export function AdminImportExport() {
       const res = await fetch('/api/import/excel', { method: 'POST', body: form })
       const body = await res.json().catch(() => ({}))
       if (!res.ok) throw new Error(body.error ?? 'Ошибка импорта')
-      setOk(`Импорт успешен: ${body.sheetsProcessed} листов, ${body.results?.reduce((s: number, r: any) => s + r.imported, 0)} записей`)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const rows: any[] = body.results ?? []
+      const imported = rows.reduce((s: number, r: any) => s + r.imported, 0)
+      const skipped = rows.reduce((s: number, r: any) => s + r.skipped, 0)
+      // Построчные ошибки раньше терялись: показываем первые пять.
+      const allErrors: string[] = rows.flatMap((r: any) => (r.errors ?? []).map((e: string) => `${r.sheet}: ${e}`))
+      setOk(
+        `Импорт завершён: листов ${body.sheetsProcessed}, добавлено ${imported}, пропущено ${skipped}.` +
+          (allErrors.length
+            ? `\n${allErrors.slice(0, 5).join('\n')}${allErrors.length > 5 ? `\n…и ещё ${allErrors.length - 5}` : ''}`
+            : ''),
+      )
       setImportFile(null)
     } catch (e) { setErr(e instanceof Error ? e.message : 'Ошибка') }
     finally { setSaving(false) }
@@ -71,7 +81,7 @@ export function AdminImportExport() {
     <div>
       <h2>Импорт / Экспорт</h2>
       {err && <p className="gg-error">{err}</p>}
-      {ok && <p className="gg-ok">{ok}</p>}
+      {ok && <p className="gg-ok" style={{ whiteSpace: 'pre-line' }}>{ok}</p>}
 
       <section style={{ marginBottom: 24, padding: 16, border: '1px solid var(--separator)', borderRadius: 12, background: 'var(--card-bg)' }}>
         <h3>Импорт из Excel</h3>
@@ -79,9 +89,10 @@ export function AdminImportExport() {
           Файл (.xlsx, до 5МБ)
           <input type="file" accept=".xlsx,.xls" onChange={(e) => setImportFile(e.target.files?.[0] ?? null)} style={{ fontSize: 16, minHeight: 44, padding: '10px 12px' }} />
         </label>
-        <label style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
-          <input type="checkbox" checked={false} disabled /> Режим: добавить (replace не реализован в UI)
-        </label>
+        <p style={{ margin: '0 0 12px', fontSize: 13, color: 'var(--text-secondary)' }}>
+          Записи только добавляются: существующие ученики, классы и предметы не затираются,
+          дубли пропускаются и попадают в отчёт.
+        </p>
         <button onClick={handleImport} disabled={saving || !importFile} style={{ padding: '14px 20px', fontSize: 16, minHeight: 48, width: '100%', maxWidth: 300 }}>
           {saving ? 'Импорт…' : 'Импортировать'}
         </button>

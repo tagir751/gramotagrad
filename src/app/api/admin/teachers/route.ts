@@ -7,8 +7,10 @@
  * ПРОВЕРКА ПРАВ: requireAdmin везде; DELETE — запрет удалить самого себя.
  * ЧТО ЧИТАЕТСЯ ИЗ БД: Teacher (+ TeacherClass + TeacherSubject для списка).
  * ЧТО ПИШЕТСЯ В БД: Teacher (+ TeacherClass/TeacherSubject при создании/правке назначений);
- *   при DELETE — каскадно удаляются сессии, назначения, TeacherState, логи остаются.
- * ОШИБКИ: 401/403; 400 валидация/дубль/короткий пароль; 404 не найден; 403 попытка удалить себя.
+ *   при DELETE — удаляются сессии, назначения, TeacherState; каскадом уходят и
+ *   логи педагога (ActionLog.teacher = onDelete: Cascade).
+ * ОШИБКИ: 401/403; 400 валидация/дубль/короткий пароль; 404 не найден;
+ *   403 попытка удалить себя; 409 за педагогом есть уроки/оценки/рекомендации.
  * ЧТО ВИДИТ ПОЛЬЗОВАТЕЛЬ: GET — [{id, fullName, lastName, role, isVospitatel, classIds[], subjectIds[]}];
  *   POST/PATCH — созданный/обновлённый учитель; DELETE — {ok:true}.
  * МОБИЛЬНОЕ ПОВЕДЕНИЕ: API одинаковое; UI — крупные инпуты, пароль autoComplete="new-password".
@@ -16,7 +18,7 @@
 import { NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { requireAdmin, logAction } from '@/lib/auth'
-import { idSchema, teacherCreateSchema, teacherUpdateSchema } from '@/lib/validators'
+import { teacherCreateSchema, teacherUpdateSchema } from '@/lib/validators'
 import { hashPassword } from '@/lib/password'
 import { handleApiError } from '@/lib/api'
 
@@ -57,7 +59,7 @@ export async function GET() {
 // POST /api/admin/teachers — создать учителя + назначения + пароль.
 export async function POST(req: Request) {
   try {
-    await requireAdmin()
+    const session = await requireAdmin()
     const parsed = teacherCreateSchema.safeParse(await req.json())
     if (!parsed.success) return NextResponse.json({ error: 'Некорректные данные' }, { status: 400 })
 
@@ -86,7 +88,7 @@ export async function POST(req: Request) {
       return t
     })
 
-    await logAction((await requireAdmin()).teacherId, 'teacher_create', `Teacher ${teacher.fullName}`)
+    await logAction(session.teacherId, 'teacher_create', `Teacher ${teacher.fullName}`)
     return NextResponse.json({
       id: teacher.id,
       fullName: teacher.fullName,
@@ -170,8 +172,29 @@ export async function DELETE(req: Request) {
 
     if (id === session.teacherId) return NextResponse.json({ error: 'Нельзя удалить самого себя' }, { status: 403 })
 
-    const teacher = await db.teacher.findUnique({ where: { id } })
+    const teacher = await db.teacher.findUnique({
+      where: { id },
+      include: { _count: { select: { lessons: true, grades: true, recommendations: true } } },
+    })
     if (!teacher) return NextResponse.json({ error: 'Учитель не найден' }, { status: 404 })
+
+    // В схеме у Lesson.teacher / Grade.teacher / Recommendation.author стоит
+    // onDelete: Cascade, поэтому удаление педагога каскадом стёрло бы уроки
+    // (а вместе с уроками — оценки ДРУГИХ учителей внутри них), выставленные
+    // оценки и рекомендации. Для журнала успеваемости это недопустимо:
+    // блокируем удаление, как уже сделано для классов и предметов.
+    const { lessons, grades, recommendations } = teacher._count
+    if (lessons > 0 || grades > 0 || recommendations > 0) {
+      const parts = [
+        lessons > 0 ? `уроков: ${lessons}` : '',
+        grades > 0 ? `оценок: ${grades}` : '',
+        recommendations > 0 ? `рекомендаций: ${recommendations}` : '',
+      ].filter(Boolean).join(', ')
+      return NextResponse.json(
+        { error: `Нельзя удалить: за педагогом числятся записи журнала (${parts}). Снимите назначения вместо удаления.` },
+        { status: 409 },
+      )
+    }
 
     await db.$transaction([
       db.session.deleteMany({ where: { teacherId: id } }),
