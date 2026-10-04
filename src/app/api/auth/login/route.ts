@@ -4,7 +4,7 @@ import { verifyPassword, needsRehash, hashPassword } from '@/lib/password'
 import { createSession, pruneExpiredSessions } from '@/lib/session'
 import { logAction } from '@/lib/auth'
 import { loginStep2Schema } from '@/lib/validators'
-import { handleApiError, rateLimit } from '@/lib/api'
+import { clientIp, handleApiError, rateLimit } from '@/lib/api'
 
 /**
  * Фиктивный scrypt-хеш валидного формата для несуществующих teacherId.
@@ -20,7 +20,7 @@ const DUMMY_HASH =
 // Единый нейтральный 401 без enumeration. Rate-limit 5/мин с IP.
 export async function POST(req: Request) {
   try {
-    const ip = req.headers.get('x-forwarded-for') ?? 'unknown'
+    const ip = clientIp(req)
     if (!rateLimit(`login:${ip}`)) {
       return NextResponse.json({ error: 'Слишком много попыток' }, { status: 429 })
     }
