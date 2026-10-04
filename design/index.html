@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Дизайн-стенд — Грамотаград</title>
+<style>
+  :root { --ui: #111318; --ui-2: #1b1f27; --line: #2c313c; --txt: #e7e9ee; --txt-2: #9aa1ae; --acc: #4c8dff; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--ui); color: var(--txt);
+    font: 14px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    height: 100vh; display: flex; flex-direction: column;
+  }
+  header { padding: 10px 14px; border-bottom: 1px solid var(--line); background: var(--ui-2); }
+  .row { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+  .row + .row { margin-top: 8px; }
+  .lbl { color: var(--txt-2); font-size: 11px; text-transform: uppercase; letter-spacing: .07em; }
+  .grp { display: flex; gap: 4px; background: #0d0f14; padding: 3px; border-radius: 9px; border: 1px solid var(--line); }
+  button {
+    font: inherit; color: var(--txt-2); background: transparent; border: 0;
+    padding: 6px 12px; border-radius: 7px; cursor: pointer; white-space: nowrap;
+  }
+  button:hover { color: var(--txt); background: #1f2430; }
+  button.on { background: var(--acc); color: #fff; }
+  .note { color: var(--txt-2); font-size: 12px; }
+  .note code { color: var(--acc); background: #0d0f14; padding: 1px 5px; border-radius: 4px; }
+  .stage { flex: 1; overflow: auto; display: flex; justify-content: center; padding: 18px; background: #0b0d11; }
+  .frame { background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 12px 40px rgba(0,0,0,.5); height: 100%; transition: width .18s ease; }
+  iframe { width: 100%; height: 100%; border: 0; display: block; }
+</style>
+</head>
+<body>
+<header>
+  <div class="row">
+    <span class="lbl">Экран</span>
+    <div class="grp" id="screens">
+      <button data-s="journal">Журнал</button>
+      <button data-s="students">Ученики</button>
+      <button data-s="reports">Отчёты</button>
+      <button data-s="vospitanie">Воспитание</button>
+      <button data-s="admin">Админ</button>
+      <button data-s="login">Вход</button>
+    </div>
+
+    <span class="lbl">Ширина</span>
+    <div class="grp" id="widths">
+      <button data-w="0">Десктоп</button>
+      <button data-w="1024">1024</button>
+      <button data-w="834">Планшет 834</button>
+      <button data-w="390">Телефон 390</button>
+    </div>
+
+    <button id="reload" style="border:1px solid var(--line)">↻ Обновить</button>
+  </div>
+  <div class="row">
+    <span class="note">
+      Стенд подключает рабочий <code>src/app/globals.css</code> — правки стилей видны сразу после «Обновить».
+      Брейкпоинт мобильной вёрстки — <code>760px</code>: на «Планшет 834» таблицы, на «Телефон 390» карточки и таб-бар.
+    </span>
+  </div>
+</header>
+
+<div class="stage">
+  <div class="frame" id="frame" style="width:100%">
+    <iframe id="view" src="/design/screens.html?s=journal"></iframe>
+  </div>
+</div>
+
+<script>
+  const view = document.getElementById('view')
+  const frame = document.getElementById('frame')
+  let screen = 'journal'
+
+  function setActive(group, attr, value) {
+    for (const b of document.querySelectorAll(`#${group} button`)) {
+      b.classList.toggle('on', b.dataset[attr] === String(value))
+    }
+  }
+
+  document.getElementById('screens').onclick = (e) => {
+    const b = e.target.closest('button'); if (!b) return
+    screen = b.dataset.s
+    view.src = `/design/screens.html?s=${screen}`
+    setActive('screens', 's', screen)
+  }
+
+  document.getElementById('widths').onclick = (e) => {
+    const b = e.target.closest('button'); if (!b) return
+    const w = Number(b.dataset.w)
+    frame.style.width = w ? w + 'px' : '100%'
+    setActive('widths', 'w', w)
+  }
+
+  document.getElementById('reload').onclick = () => {
+    view.src = `/design/screens.html?s=${screen}&t=${Date.now()}`
+  }
+
+  setActive('screens', 's', 'journal')
+  setActive('widths', 'w', 0)
+</script>
+</body>
+</html>

@@ -4,7 +4,7 @@
  * DATA FROM URL: type, classId, subjectId, teacherId, dateFrom, dateTo.
  * DATA FROM STORE: none.
  * API REQUESTS: GET /api/reports with query params.
- * STATES: loading, err, data{grades[], lessons[], gradeDist[], avgGrade, totalLessons, totalGrades}.
+ * STATES: loading, err, data{grades[], lessons[], gradeDistribution[], averageGrade, totalLessons, totalGrades}.
  * ERRORS: 403 no access; network - text.
  * MOBILE BEHAVIOR: cards instead of tables; charts responsive; date pickers native.
  */
@@ -19,13 +19,15 @@ interface Lesson { id: number; date: string; subject: { name: string }; class: {
 
 export function ReportsPage() {
   const { page, classId, setParam } = useQueryPageFilters()
-  // Ответ API зависит от type: school -> {gradeDist, avgGrade, totalLessons, totalGrades},
-  // teacher/student -> {lessons, grades}. Поля не из своего типа отсутствуют.
+  // Ответ API зависит от type: school -> {gradeDistribution, averageGrade,
+  // totalLessons, totalGrades}, teacher/student -> {lessons, grades}.
+  // Имена полей должны совпадать с /api/reports: раньше страница читала
+  // gradeDist/avgGrade, поэтому средний балл всегда был «—», а распределение нулевым.
   const [data, setData] = useState<{
     grades?: Grade[]
     lessons?: Lesson[]
-    gradeDist?: GradeDist[]
-    avgGrade?: number | null
+    gradeDistribution?: GradeDist[]
+    averageGrade?: number | null
     totalLessons?: number
     totalGrades?: number
   } | null>(null)
@@ -65,7 +67,7 @@ export function ReportsPage() {
   if (err) return <p className="gg-error">{err}</p>
   if (!data) return <p>Нет данных</p>
 
-  const dist = type === 'school' ? formatDist(data.gradeDist) : []
+  const dist = type === 'school' ? formatDist(data.gradeDistribution) : []
 
   return (
     <div>
@@ -115,7 +117,7 @@ export function ReportsPage() {
             <div className="gg-stat gg-stat--wait">
               <span className="gg-stat__icon" aria-hidden="true">⏳</span>
               <span className="gg-stat__label">Средний балл</span>
-              <span className="gg-stat__value">{data.avgGrade ? Number(data.avgGrade).toFixed(2) : '—'}</span>
+              <span className="gg-stat__value">{data.averageGrade ? Number(data.averageGrade).toFixed(2) : '—'}</span>
             </div>
           </div>
           <h3 style={{ marginTop: 16 }}>Распределение оценок</h3>
