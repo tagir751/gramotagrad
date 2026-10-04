@@ -1,0 +1,41 @@
+# deps / build
+node_modules/
+.next/
+out/
+tsconfig.tsbuildinfo
+next-env.d.ts
+*.bak
+*.tmp
+
+# SQLite / Prisma (ФИО — не пушить!)
+*.db
+*.db*
+*.sqlite*
+*.db-journal
+*.db-wal
+*.db-shm
+backup/
+prisma/*.db
+
+# env (только пример!)
+.env*
+!.env.example
+
+# logs / test artefacts
+*.log
+test-results/
+test-results.json
+playwright-report/
+
+# deploy / data / tmp
+deploy/
+data/
+tmp/
+uploads/
+logs/
+
+# archives / heavy media
+*.zip
+*.mp3
+*.docx
+*.pdf

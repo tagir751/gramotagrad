@@ -1,0 +1,214 @@
+// Грамотаград v2 — схема Prisma
+// Отличия от v1:
+// - Teacher.password -> passwordHash (scrypt, пер-пользовательская соль, см. src/lib/password.ts)
+// - Новая модель Session (серверные сессии вместо cookie=teacherId)
+// - Индексы + unique на Lesson(date,classId,subjectId)
+// - Cascade delete на связях, updatedAt везде
+// - SQLite файл должен лежать ВНЕ DocumentRoot:
+//   DATABASE_URL="file:../private/gramotagrad.db" (на Beget) или "file:./dev.db" (локально)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Teacher {
+  id           Int      @id @default(autoincrement())
+  lastName     String // Фамилия — для логина
+  firstName    String // Имя + Отчество
+  fullName     String // Полное ФИО
+  passwordHash String // scrypt хеш вида scrypt$N$r$p$salt$hash (НЕ sha256)
+  role         String   @default("учитель") // "админ" | "учитель"
+  isVospitatel Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  classes              TeacherClass[]
+  subjects             TeacherSubject[]
+  lessons              Lesson[]
+  grades               Grade[]
+  recommendations      Recommendation[]
+  responsibleClasses   ResponsibleEducator[]
+  logs                 ActionLog[]
+  teacherStates        TeacherState[]
+  sessions             Session[]
+
+  @@index([lastName])
+  @@index([role])
+}
+
+model Session {
+  id        Int      @id @default(autoincrement())
+  tokenHash String   @unique // sha256 от случайного token (в cookie лежит сам token, в БД только хеш)
+  teacherId Int
+  teacher   Teacher  @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  ip        String   @default("")
+  userAgent String   @default("")
+  createdAt DateTime @default(now())
+
+  @@index([teacherId])
+  @@index([expiresAt])
+}
+
+model Class {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique // "1".."5"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  students               Student[]
+  lessons                Lesson[]
+  teachers               TeacherClass[]
+  responsibleEducators   ResponsibleEducator[]
+}
+
+model Subject {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  teachers TeacherSubject[]
+  lessons  Lesson[]
+}
+
+model Student {
+  id        Int      @id @default(autoincrement())
+  fullName  String
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  classId Int
+  class   Class @relation(fields: [classId], references: [id], onDelete: Cascade)
+
+  grades          Grade[]
+  recommendations Recommendation[]
+
+  @@index([classId])
+  @@index([active])
+}
+
+model TeacherClass {
+  teacherId Int
+  classId   Int
+
+  teacher Teacher @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  class   Class   @relation(fields: [classId], references: [id], onDelete: Cascade)
+
+  @@id([teacherId, classId])
+  @@index([classId])
+}
+
+model TeacherSubject {
+  teacherId Int
+  subjectId Int
+
+  teacher Teacher @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  subject Subject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+
+  @@id([teacherId, subjectId])
+  @@index([subjectId])
+}
+
+model Lesson {
+  id        Int      @id @default(autoincrement())
+  date      String // "2026-01-15", валидируется через zod YYYY-MM-DD
+  topic     String   @default("")
+  homework  String   @default("")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  classId   Int
+  class     Class   @relation(fields: [classId], references: [id], onDelete: Cascade)
+  subjectId Int
+  subject   Subject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  teacherId Int
+  teacher   Teacher @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+
+  grades Grade[]
+
+  @@unique([date, classId, subjectId])
+  @@index([date])
+  @@index([classId])
+  @@index([teacherId])
+}
+
+model Grade {
+  id        Int      @id @default(autoincrement())
+  value     String   @default("") // "5","4","3","2","Н","" — валидируется zod enum
+  comment   String   @default("")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  lessonId  Int
+  lesson    Lesson  @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  studentId Int
+  student   Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  teacherId Int
+  teacher   Teacher @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+
+  @@unique([lessonId, studentId])
+  @@index([studentId])
+  @@index([teacherId])
+}
+
+model Recommendation {
+  id        Int      @id @default(autoincrement())
+  text      String
+  isCurrent Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  studentId Int
+  student   Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  authorId  Int
+  author    Teacher @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@index([studentId])
+  @@index([authorId])
+  @@index([isCurrent])
+}
+
+model ActionLog {
+  id          Int      @id @default(autoincrement())
+  timestamp   DateTime @default(now())
+  action      String // "login", "grade_add", ...
+  description String   @default("")
+  ip          String   @default("")
+
+  teacherId Int
+  teacher   Teacher @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+
+  @@index([teacherId])
+  @@index([timestamp])
+  @@index([action])
+}
+
+model ResponsibleEducator {
+  teacherId Int
+  classId   Int
+
+  teacher Teacher @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  class   Class   @relation(fields: [classId], references: [id], onDelete: Cascade)
+
+  @@id([teacherId, classId])
+  @@index([classId])
+}
+
+model TeacherState {
+  id            Int      @id @default(autoincrement())
+  lastClassId   Int?
+  lastSubjectId Int?
+  lastDate      String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  teacherId Int     @unique
+  teacher   Teacher @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+}

@@ -1,0 +1,566 @@
+/* ============================================================
+   Грамотаград v2 — globals.css. Светлая iOS-подобная тема.
+   • Все имена gg-* из DESIGN_PACK §3 определены, семантика сохранена.
+   • [SHIM] — алиасы старых токенов (удалить после выпила var(--*) из tsx).
+   • Поведение <760px — 1:1 по §9.
+   ============================================================ */
+
+:root {
+  color-scheme: light;
+
+  /* --- Поверхности (bg совпадает с themeColor из layout.tsx) --- */
+  --gg-bg: #f0f2f5;
+  --gg-surface: #ffffff;
+  --gg-surface-2: #f2f3f7;   /* hover / вторичные заливки */
+  --gg-surface-3: #e9ebf1;
+
+  /* --- Текст (контраст ≥ AA на белом и на --gg-bg) --- */
+  --gg-text:   #1d1d1f;  /* 15.5:1 */
+  --gg-text-2: #515154;  /* 7.5:1  */
+  --gg-text-3: #636366;  /* 5.2:1 на --gg-bg */
+  --gg-on-accent: #ffffff;
+
+  /* --- Акцент --- */
+  --gg-accent:        #0071e3;
+  --gg-accent-strong: #005fd0;
+  --gg-accent-soft:   rgba(0, 113, 227, 0.10);
+  --gg-ring:          rgba(0, 113, 227, 0.30);
+
+  --gg-success:        #157347;
+  --gg-success-strong: #0f5c38;
+  --gg-danger:         #d92d20;
+  --gg-danger-strong:  #b42318;
+
+  /* --- Пилюли оценок: чернила + tint (5/4/3/2/Н) --- */
+  --gg-ink-5: #157347;  --gg-tint-5: rgba(52, 199, 89, 0.16);
+  --gg-ink-4: #0b62c4;  --gg-tint-4: rgba(0, 113, 227, 0.10);
+  --gg-ink-3: #8a5200;  --gg-tint-3: rgba(255, 159, 10, 0.18);
+  --gg-ink-2: #b42318;  --gg-tint-2: rgba(255, 59, 48, 0.12);
+  --gg-ink-n: #515154;  --gg-tint-n: rgba(120, 120, 128, 0.12);
+
+  /* --- Стат-карточки: Сегодня / Позже / Ожидание --- */
+  --gg-ink-info:  #0b62c4; --gg-tint-info:  rgba(0, 113, 227, 0.10);
+  --gg-ink-later: #4646c6; --gg-tint-later: rgba(88, 86, 214, 0.12);
+  --gg-ink-wait:  #8a5200; --gg-tint-wait:  rgba(255, 159, 10, 0.18);
+
+  /* --- Линии, тени, радиусы --- */
+  --gg-border:        rgba(60, 60, 67, 0.10);
+  --gg-border-strong: rgba(60, 60, 67, 0.18);
+  --gg-shadow-1: 0 1px 2px rgba(17,24,39,.05), 0 1px 3px rgba(17,24,39,.05);
+  --gg-shadow-2: 0 2px 6px rgba(17,24,39,.05), 0 10px 28px rgba(17,24,39,.08);
+  --gg-shadow-3: 0 6px 16px rgba(17,24,39,.08), 0 18px 44px rgba(17,24,39,.10);
+  --gg-shadow-seg: 0 1px 2px rgba(17,24,39,.14), 0 0 0 .5px rgba(17,24,39,.04);
+  --gg-r-sm: 10px; --gg-r-md: 14px; --gg-r-lg: 18px; --gg-r-xl: 24px;
+  --gg-r-btn: 12px; --gg-r-pill: 999px;
+
+  --gg-ease: cubic-bezier(.25,.1,.25,1);
+  --gg-t-fast: 140ms; --gg-t: 220ms;
+
+  /* ============================================================
+     [SHIM] Legacy-токены → новая система. НЕ использовать в новом коде.
+     Grep-гейт: в tsx-файлах допустимы ТОЛЬКО имена из этого блока.
+     ============================================================ */
+  /* SHIM Ink: var()-ссылки внутри :root роняют Turbopack-парсер,
+     поэтому здесь литералы 1:1 из токенов выше. При смене токенов — обновить. */
+  --bg: #f0f2f5;
+  --paper: #f0f2f5;
+  --card-bg: #ffffff;
+  --text: #1d1d1f;
+  --text-strong: #1d1d1f;
+  --text-secondary: #515154;
+  --text-muted: #515154;
+  --text-tertiary: #636366;
+  --separator: rgba(60, 60, 67, 0.10);
+  --gray: #e9ebf1;
+  --gray-light: #f2f3f7;
+  --blue: #0071e3;
+  --blue-light: rgba(0, 113, 227, 0.10);
+  --blue-glow: rgba(0, 113, 227, 0.30);
+  --green: #157347;
+  --green-light: rgba(52, 199, 89, 0.16);
+  --green-glow: rgba(52,199,89,.30);
+  --yellow: #8a5200;
+  --yellow-light: rgba(255, 159, 10, 0.18);
+  --yellow-glow: rgba(255,159,10,.28);
+  --orange: #c2410c;
+  --orange-light: rgba(255, 149, 0, 0.15);
+  --red: #d92d20;
+  --red-light: rgba(255, 59, 48, 0.12);
+  --red-glow: rgba(255,59,48,.30);
+  --purple: #5856d6;
+  --purple-light: rgba(88, 86, 214, 0.12);
+  --success: #157347;
+  --warning: #8a5200;
+  --danger: #d92d20;
+  --shadow-sm: 0 1px 2px rgba(17,24,39,.05), 0 1px 3px rgba(17,24,39,.05);
+  --shadow-md: 0 2px 6px rgba(17,24,39,.05), 0 10px 28px rgba(17,24,39,.08);
+  --shadow-lg: 0 6px 16px rgba(17,24,39,.08), 0 18px 44px rgba(17,24,39,.10);
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+  --brand-900: #1d1d1f;
+  --brand-600: #0071e3;
+  --brand-500: #0071e3;
+  --brand-100: rgba(0, 113, 227, 0.10);
+  --brand-50: #f0f2f5;
+  --accent-600: #c2410c;
+  --accent-500: #c2410c;
+  --accent-100: rgba(255, 159, 10, 0.18);
+  /* [/SHIM] */
+}
+
+/* ---------- База ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--gg-bg);
+  color: var(--gg-text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'SF Pro Display', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 15px; line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; }
+::selection { background: var(--gg-accent-soft); }
+
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--gg-accent); outline-offset: 2px;
+}
+
+/* Поля ввода: база iOS-безопасная (16px — без авто-зума) */
+input:not([type='checkbox']):not([type='radio']), select, textarea {
+  font-family: inherit; font-size: 16px; min-height: 44px; color: var(--gg-text);
+}
+/* Кнопки без класса (пагинация LogsPage и т.п.) — нейтральный вторичный вид */
+button:not([class]) {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 44px; min-width: 44px; padding: 10px 16px;
+  font: inherit; font-size: 16px; font-weight: 600;
+  color: var(--gg-text); background: var(--gg-surface);
+  border: 1px solid var(--gg-border-strong); border-radius: var(--gg-r-btn); cursor: pointer;
+  transition: background var(--gg-t-fast) var(--gg-ease);
+}
+button:not([class]):hover:not(:disabled) { background: var(--gg-surface-2); }
+button:not([class]):disabled { opacity: .45; cursor: not-allowed; }
+
+/* ---------- Каркас: shell / header / nav / tabbar ---------- */
+.gg-shell { min-height: 100dvh; display: flex; flex-direction: column; }
+
+.gg-header {
+  position: sticky; top: 0; z-index: 40;
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 16px;
+  padding-top: calc(10px + env(safe-area-inset-top));
+  background: rgba(255, 255, 255, 0.80);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid var(--gg-border);
+}
+.gg-logo { height: 32px; width: auto; display: block; flex: none; }
+.gg-burger { display: none; }
+
+.gg-nav-desktop { display: flex; align-items: center; gap: 4px; margin-left: 12px; min-width: 0; }
+.gg-nav-link {
+  display: inline-flex; align-items: center; min-height: 40px;
+  padding: 8px 14px; border-radius: var(--gg-r-pill);
+  color: var(--gg-text-2); font-size: 14px; font-weight: 500;
+  text-decoration: none; white-space: nowrap;
+  transition: background var(--gg-t-fast) var(--gg-ease), color var(--gg-t-fast) var(--gg-ease);
+}
+.gg-nav-link:hover { background: var(--gg-surface-2); color: var(--gg-text); }
+.gg-nav-link-active { background: var(--gg-accent-soft); color: var(--gg-accent-strong); font-weight: 600; }
+.gg-nav-link-active:hover { background: var(--gg-accent-soft); color: var(--gg-accent-strong); }
+
+.gg-role { margin-left: auto; font-size: 13px; color: var(--gg-text-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gg-role-admin { color: var(--gg-accent-strong); font-weight: 600; }
+
+.gg-logout {
+  flex: none; display: inline-flex; align-items: center;
+  min-height: 40px; padding: 8px 14px;
+  border: 0; border-radius: var(--gg-r-pill); background: transparent; cursor: pointer;
+  font: inherit; font-size: 14px; font-weight: 600; color: var(--gg-text-2);
+  transition: background var(--gg-t-fast) var(--gg-ease), color var(--gg-t-fast) var(--gg-ease);
+}
+.gg-logout:hover:not(:disabled) { background: var(--gg-surface-2); color: var(--gg-text); }
+.gg-logout:disabled { opacity: .5; cursor: not-allowed; }
+
+.gg-nav-mobile {
+  display: flex; flex-direction: column; gap: 4px;
+  margin: 12px 16px 0; padding: 8px;
+  background: var(--gg-surface);
+  border: 1px solid var(--gg-border);
+  border-radius: var(--gg-r-lg);
+  box-shadow: var(--gg-shadow-3);
+}
+.gg-nav-mobile .gg-nav-link { min-height: 44px; border-radius: var(--gg-r-md); padding: 10px 14px; font-size: 16px; }
+
+.gg-main {
+  width: 100%; max-width: 1100px; margin: 0 auto;
+  padding: 20px 16px 48px;
+  flex: 1 0 auto;
+}
+
+/* Таб-бар: только ≤760px */
+.gg-tabbar { display: none; }
+
+/* ---------- Greeting ---------- */
+.gg-greeting { margin: 2px 0 18px; }
+.gg-greeting-date { font-size: 13px; font-weight: 600; color: var(--gg-text-3); }
+.gg-greeting-hello {
+  margin-top: 2px;
+  font-size: 28px; font-weight: 800; line-height: 1.15; letter-spacing: -0.02em;
+  color: var(--gg-accent-strong);
+}
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .gg-greeting-hello {
+    background: linear-gradient(92deg, #0071e3, #5856d6);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent; color: transparent;
+  }
+}
+
+/* ---------- Заголовки страниц/секций ---------- */
+.gg-main h1 { margin: 0 0 16px; font-size: 24px; font-weight: 800; letter-spacing: -0.02em; }
+.gg-main h2 { margin: 0 0 12px; font-size: 20px; font-weight: 700; letter-spacing: -0.01em; }
+.gg-section-header { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 22px 0 10px; }
+.gg-section-header h2 { margin: 0; font-size: 17px; }
+.gg-count {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 26px; height: 24px; padding: 0 9px;
+  border-radius: var(--gg-r-pill);
+  background: var(--gg-accent-soft); color: var(--gg-accent-strong);
+  font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Карточки ---------- */
+.gg-card {
+  background: var(--gg-surface);
+  border: 1px solid var(--gg-border);
+  border-radius: var(--gg-r-lg);
+  box-shadow: var(--gg-shadow-1);
+  padding: 18px;
+  min-width: 0;
+}
+.gg-log-card {
+  background: var(--gg-surface);
+  border: 1px solid var(--gg-border);
+  border-radius: var(--gg-r-md);
+  box-shadow: var(--gg-shadow-1);
+  padding: 14px 16px;
+  min-width: 0;
+}
+.gg-logs-cards { display: grid; gap: 8px; min-width: 0; }
+
+/* Переключение таблица ↔ карточки (поведение §9 — 1:1) */
+.gg-show-mobile { display: none; }
+
+/* ---------- Таблицы ---------- */
+.gg-table-wrap {
+  overflow-x: auto; -webkit-overflow-scrolling: touch;
+  background: var(--gg-surface);
+  border: 1px solid var(--gg-border);
+  border-radius: var(--gg-r-md);
+  box-shadow: var(--gg-shadow-1);
+}
+.gg-table { width: 100%; min-width: 700px; border-collapse: separate; border-spacing: 0; font-size: 14px; }
+.gg-table th {
+  padding: 10px 14px; text-align: left; white-space: nowrap;
+  font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--gg-text-3); background: var(--gg-surface-2);
+  border-bottom: 1px solid var(--gg-border);
+}
+.gg-table td { padding: 12px 14px; border-bottom: 1px solid var(--gg-border); font-variant-numeric: tabular-nums; }
+.gg-table tbody tr:last-child td { border-bottom: 0; }
+.gg-table tbody tr { transition: background var(--gg-t-fast) var(--gg-ease); }
+.gg-table tbody tr:hover { background: var(--gg-surface-2); }
+.gg-td-clip { max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ---------- Оценки: select-пилюля (журнал) ---------- */
+.gg-grade {
+  -webkit-appearance: none; appearance: none;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 76px; min-height: 44px; padding: 8px 30px 8px 16px;
+  font-family: inherit; font-size: 16px; font-weight: 700;
+  color: var(--gg-ink-n); background-color: var(--gg-tint-n);
+  border: 0; border-radius: var(--gg-r-pill); cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 4.5 6 8l3.5-3.5' fill='none' stroke='%23636366' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 11px center; background-size: 12px;
+  transition: box-shadow var(--gg-t-fast) var(--gg-ease);
+  font-variant-numeric: tabular-nums;
+}
+.gg-grade:hover:not(:disabled) { box-shadow: inset 0 0 0 1px var(--gg-border-strong); }
+.gg-grade:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--gg-ring); }
+.gg-grade:disabled { opacity: .5; cursor: not-allowed; }
+.gg-grade.val-5 { background-color: var(--gg-tint-5); color: var(--gg-ink-5); }
+.gg-grade.val-4 { background-color: var(--gg-tint-4); color: var(--gg-ink-4); }
+.gg-grade.val-3 { background-color: var(--gg-tint-3); color: var(--gg-ink-3); }
+.gg-grade.val-2 { background-color: var(--gg-tint-2); color: var(--gg-ink-2); }
+.gg-grade.val-n { background-color: var(--gg-tint-n); color: var(--gg-ink-n); font-weight: 800; }
+
+/* ---------- Оценки: пилюли для чтения ----------
+   gg-badge (новое) и gg-grade-pill (легаси-имя, §9 — не удалять)
+   делят одни правила: один визуальный язык, ноль дрейфа. */
+.gg-badge, .gg-grade-pill {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 34px; height: 28px; padding: 2px 12px;
+  border-radius: var(--gg-r-pill);
+  font-size: 14px; font-weight: 700; font-variant-numeric: tabular-nums;
+  background: var(--gg-tint-n); color: var(--gg-ink-n);
+}
+.gg-badge.val-5, .gg-grade-pill.val-5 { background: var(--gg-tint-5); color: var(--gg-ink-5); }
+.gg-badge.val-4, .gg-grade-pill.val-4 { background: var(--gg-tint-4); color: var(--gg-ink-4); }
+.gg-badge.val-3, .gg-grade-pill.val-3 { background: var(--gg-tint-3); color: var(--gg-ink-3); }
+.gg-badge.val-2, .gg-grade-pill.val-2 { background: var(--gg-tint-2); color: var(--gg-ink-2); }
+.gg-badge.val-n, .gg-grade-pill.val-n { background: var(--gg-tint-n); color: var(--gg-ink-n); }
+.gg-badge--5 { background: var(--gg-tint-5); color: var(--gg-ink-5); }
+.gg-badge--4 { background: var(--gg-tint-4); color: var(--gg-ink-4); }
+.gg-badge--3 { background: var(--gg-tint-3); color: var(--gg-ink-3); }
+.gg-badge--2 { background: var(--gg-tint-2); color: var(--gg-ink-2); }
+
+/* ---------- Кнопки ----------
+   Ширины как в старом CSS: gg-btn / gg-btn-success — 100% (CTA),
+   gg-btn-secondary / gg-btn-danger — авто (экшены в таблицах). */
+.gg-btn, .gg-btn-success, .gg-btn-secondary, .gg-btn-danger {
+  appearance: none;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 44px; padding: 10px 18px;
+  font: inherit; font-size: 16px; font-weight: 600; text-decoration: none;
+  border: 0; border-radius: var(--gg-r-btn); cursor: pointer;
+  transition: background var(--gg-t-fast) var(--gg-ease), box-shadow var(--gg-t-fast) var(--gg-ease), transform var(--gg-t-fast) var(--gg-ease);
+}
+.gg-btn:active:not(:disabled), .gg-btn-success:active:not(:disabled),
+.gg-btn-secondary:active:not(:disabled), .gg-btn-danger:active:not(:disabled) {
+  transform: translateY(1px) scale(.99);
+}
+.gg-btn:disabled, .gg-btn-success:disabled, .gg-btn-secondary:disabled, .gg-btn-danger:disabled {
+  opacity: .45; cursor: not-allowed; box-shadow: none; transform: none;
+}
+.gg-btn { width: 100%; color: var(--gg-on-accent); background: var(--gg-accent); box-shadow: var(--gg-shadow-1); }
+.gg-btn:hover:not(:disabled) { background: var(--gg-accent-strong); }
+.gg-btn-success { width: 100%; color: #fff; background: var(--gg-success); box-shadow: var(--gg-shadow-1); }
+.gg-btn-success:hover:not(:disabled) { background: var(--gg-success-strong); }
+.gg-btn-secondary { color: var(--gg-text); background: var(--gg-surface); border: 1px solid var(--gg-border-strong); }
+.gg-btn-secondary:hover:not(:disabled) { background: var(--gg-surface-2); }
+.gg-btn-danger { color: #fff; background: var(--gg-danger); }
+.gg-btn-danger:hover:not(:disabled) { background: var(--gg-danger-strong); }
+
+/* ---------- Поля ---------- */
+.gg-field {
+  display: flex; flex-direction: column; gap: 6px;
+  font-size: 13px; font-weight: 600; color: var(--gg-text-2);
+}
+.gg-input {
+  width: 100%; min-height: 44px; padding: 10px 14px;
+  font-family: inherit; font-size: 16px; color: var(--gg-text);
+  background: var(--gg-surface);
+  border: 1px solid var(--gg-border-strong);
+  border-radius: var(--gg-r-sm);
+  transition: border-color var(--gg-t-fast) var(--gg-ease), box-shadow var(--gg-t-fast) var(--gg-ease);
+}
+.gg-input:hover:not(:disabled):not(:focus-visible) { border-color: rgba(60, 60, 67, 0.32); }
+.gg-input:focus-visible { outline: none; border-color: var(--gg-accent); box-shadow: 0 0 0 3px var(--gg-ring); }
+.gg-input:disabled { background: var(--gg-surface-2); color: var(--gg-text-3); cursor: not-allowed; }
+
+/* ---------- Состояния ---------- */
+.gg-error {
+  margin: 8px 0; padding: 10px 14px;
+  border-radius: var(--gg-r-sm);
+  background: var(--gg-tint-2); color: var(--gg-danger-strong);
+  font-size: 14px; font-weight: 500;
+}
+.gg-ok {
+  margin: 8px 0; padding: 10px 14px;
+  border-radius: var(--gg-r-sm);
+  background: var(--gg-tint-5); color: var(--gg-success-strong);
+  font-size: 14px; font-weight: 500;
+}
+.gg-empty {
+  padding: 28px 20px; text-align: center;
+  color: var(--gg-text-3); font-size: 14px;
+  background: var(--gg-surface);
+  border: 1px dashed var(--gg-border-strong);
+  border-radius: var(--gg-r-lg);
+}
+
+/* ---------- Чипы фильтров ---------- */
+.gg-chip {
+  display: inline-flex; align-items: center;
+  min-height: 36px; padding: 6px 14px;
+  border: 1px solid var(--gg-border-strong); border-radius: var(--gg-r-pill);
+  background: var(--gg-surface); color: var(--gg-text-2);
+  font: inherit; font-size: 14px; font-weight: 600; cursor: pointer;
+  transition: background var(--gg-t-fast) var(--gg-ease), color var(--gg-t-fast) var(--gg-ease), border-color var(--gg-t-fast) var(--gg-ease);
+}
+.gg-chip:hover { background: var(--gg-surface-2); color: var(--gg-text); }
+.gg-chip[aria-pressed='true'], .gg-chip.is-active { background: var(--gg-text); border-color: var(--gg-text); color: #fff; }
+
+/* ---------- Пагинация ---------- */
+.gg-pagination { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.gg-page-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 44px; min-width: 44px; padding: 10px 16px;
+  font: inherit; font-size: 16px; font-weight: 600; cursor: pointer;
+  color: var(--gg-text); background: var(--gg-surface);
+  border: 1px solid var(--gg-border-strong); border-radius: var(--gg-r-btn);
+  transition: background var(--gg-t-fast) var(--gg-ease);
+}
+.gg-page-btn:hover:not(:disabled) { background: var(--gg-surface-2); }
+.gg-page-btn:disabled { opacity: .45; cursor: not-allowed; }
+.gg-page-info {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px;
+  border-radius: var(--gg-r-pill); background: var(--gg-surface);
+  border: 1px solid var(--gg-border);
+  font-size: 15px; font-weight: 600; font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Ученики ---------- */
+.gg-student-row { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.gg-student-name { font-size: 15px; font-weight: 600; color: var(--gg-text); min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.gg-avatar {
+  flex: none; display: grid; place-items: center;
+  width: 38px; height: 38px; border-radius: 50%;
+  background: var(--gg-accent-soft); color: var(--gg-accent-strong);
+  font-size: 14px; font-weight: 700; letter-spacing: .02em;
+}
+
+/* ---------- Логин ---------- */
+.gg-login-wrap {
+  min-height: 100dvh;
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px 16px calc(24px + env(safe-area-inset-bottom));
+}
+.gg-login-card {
+  width: 100%; max-width: 400px;
+  display: flex; flex-direction: column; gap: 14px;
+  padding: 28px 24px;
+  background: var(--gg-surface);
+  border: 1px solid var(--gg-border);
+  border-radius: var(--gg-r-xl);
+  box-shadow: var(--gg-shadow-3);
+}
+.gg-login-seal { width: 72px; height: 72px; align-self: center; }
+.gg-login-title { margin: 2px 0 6px; text-align: center; font-size: 24px; font-weight: 800; letter-spacing: -0.02em; color: var(--gg-text); }
+
+/* ============================================================
+   [NEW] Сегмент-контрол (AdminTabs) и стат-карточки (ReportsPage)
+   ============================================================ */
+.gg-tabs {
+  display: inline-flex; gap: 2px; max-width: 100%;
+  padding: 3px;
+  background: var(--gg-tint-n);
+  border-radius: var(--gg-r-md);
+  overflow-x: auto; scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.gg-tabs::-webkit-scrollbar { display: none; }
+.gg-tab {
+  flex: 1 0 auto;
+  min-height: 38px; padding: 0 16px; white-space: nowrap;
+  font: inherit; font-size: 14px; font-weight: 500;
+  color: var(--gg-text-2); background: transparent;
+  border: 0; border-radius: 11px; cursor: pointer;
+  transition: background var(--gg-t-fast) var(--gg-ease), color var(--gg-t-fast) var(--gg-ease), box-shadow var(--gg-t-fast) var(--gg-ease), transform var(--gg-t-fast) var(--gg-ease);
+}
+.gg-tab:hover:not(:disabled) { color: var(--gg-text); }
+.gg-tab:active:not(:disabled) { transform: scale(.97); }
+.gg-tab:disabled { opacity: .45; cursor: not-allowed; }
+.gg-tab.is-active, .gg-tab[aria-selected='true'], .gg-tab[aria-pressed='true'] {
+  background: var(--gg-surface); color: var(--gg-text); font-weight: 600;
+  box-shadow: var(--gg-shadow-seg);
+}
+
+.gg-stat-grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); }
+.gg-stat {
+  position: relative;
+  display: flex; flex-direction: column; gap: 4px;
+  background: var(--gg-surface);
+  border: 1px solid var(--gg-border);
+  border-radius: var(--gg-r-lg);
+  box-shadow: var(--gg-shadow-1);
+  padding: 16px 18px;
+  transition: box-shadow var(--gg-t) var(--gg-ease), transform var(--gg-t) var(--gg-ease);
+}
+.gg-stat:hover { box-shadow: var(--gg-shadow-2); transform: translateY(-1px); }
+.gg-stat__label { font-size: 13px; font-weight: 600; color: var(--gg-text-3); }
+.gg-stat__value { font-size: 28px; font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.gg-stat__icon {
+  position: absolute; top: 14px; right: 14px;
+  width: 34px; height: 34px; display: grid; place-items: center;
+  border-radius: 10px; font-size: 16px;
+  background: var(--gg-tint-n);
+}
+.gg-stat--today .gg-stat__icon { background: var(--gg-tint-info); }
+.gg-stat--later .gg-stat__icon { background: var(--gg-tint-later); }
+.gg-stat--wait  .gg-stat__icon { background: var(--gg-tint-wait); }
+.gg-stat--today .gg-stat__value { color: var(--gg-ink-info); }
+.gg-stat--later .gg-stat__value { color: var(--gg-ink-later); }
+.gg-stat--wait  .gg-stat__value { color: var(--gg-ink-wait); }
+
+/* [NEW] Опционально, фаза 2 */
+.gg-filterbar { display: flex; gap: 8px; flex-wrap: wrap; align-items: flex-end; margin-bottom: 12px; }
+.gg-loading { padding: 16px; color: var(--gg-text-3); font-size: 15px; }
+.gg-skeleton {
+  border-radius: var(--gg-r-sm);
+  background: linear-gradient(90deg, var(--gg-surface-2) 25%, var(--gg-surface-3) 37%, var(--gg-surface-2) 63%);
+  background-size: 400% 100%;
+  animation: gg-shimmer 1.4s ease infinite;
+}
+@keyframes gg-shimmer { from { background-position: 100% 0; } to { background-position: 0 0; } }
+
+/* ============================================================
+   Адаптив ≤760px — поведение 1:1 (§9)
+   ============================================================ */
+@media (max-width: 760px) {
+  .gg-main { padding: 16px 16px 40px; }
+  .gg-shell { padding-bottom: calc(78px + env(safe-area-inset-bottom)); } /* запас под таб-бар */
+
+  .gg-burger { display: inline-flex; }
+  .gg-nav-desktop { display: none; }
+  .gg-role { display: none; }
+  .gg-logout { margin-left: auto; min-height: 44px; }
+  .gg-logo { height: 28px; }
+  .gg-header { gap: 8px; }
+
+  .gg-tabbar {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 50;
+    display: grid; grid-auto-flow: column; grid-auto-columns: 1fr;
+    gap: 2px; padding: 6px 8px calc(6px + env(safe-area-inset-bottom));
+    background: rgba(255, 255, 255, 0.85);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    backdrop-filter: saturate(180%) blur(20px);
+    border-top: 1px solid var(--gg-border);
+  }
+  .gg-tabbar-item {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+    min-height: 46px; padding: 4px 2px;
+    border-radius: var(--gg-r-md);
+    text-decoration: none; color: var(--gg-text-3);
+    transition: background var(--gg-t-fast) var(--gg-ease), color var(--gg-t-fast) var(--gg-ease);
+  }
+  .gg-tabbar-item.active { color: var(--gg-accent-strong); background: var(--gg-accent-soft); }
+  .gg-tabbar-icon { font-size: 20px; line-height: 1; }
+  .gg-tabbar-label { font-size: 11px; font-weight: 600; }
+
+  /* Таблицы → карточки */
+  .gg-table-wrap { display: none; }
+  .gg-hide-mobile { display: none !important; }
+  .gg-show-mobile { display: grid; }
+
+  .gg-card, .gg-log-card { padding: 16px; }
+  .gg-greeting-hello { font-size: 24px; }
+  .gg-stat__value { font-size: 24px; }
+  .gg-tabs, .gg-seg { display: flex; width: 100%; }
+  .gg-tab { min-height: 44px; font-size: 15px; }
+  .gg-chip { min-height: 44px; }
+}
+
+@media (min-width: 761px) {
+  .gg-nav-mobile { display: none; } /* защита от menuOpen на десктопе */
+  .gg-tabbar { display: none; }
+  .gg-burger { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
