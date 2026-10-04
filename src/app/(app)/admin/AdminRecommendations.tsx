@@ -78,32 +78,32 @@ export function AdminRecommendations() {
       {err && <p className="gg-error">{err}</p>}
       {ok && <p className="gg-ok">{ok}</p>}
 
-      <div style={{ marginBottom: 16 }}>
-        <label style={{ display: 'flex', flexDirection: 'column', gap: 4, maxWidth: 300 }}>
+      <div className="gg-spacer">
+        <label className="gg-field gg-field--bare gg-narrow">
           Класс для фильтра учеников
-          <select value={classId} onChange={(e) => setClassId(e.target.value)} style={{ fontSize: 16, minHeight: 44, padding: '10px 12px' }}>
+          <select value={classId} onChange={(e) => setClassId(e.target.value)}>
             <option value="">Все классы</option>
             {recs.map((r) => r.student.class && <option key={r.student.class.name} value={r.student.class.name}>{r.student.class.name}</option>)}
           </select>
         </label>
       </div>
 
-      <div style={{ marginBottom: 16 }}>
-        <label style={{ display: 'flex', flexDirection: 'column', gap: 4, maxWidth: 400 }}>
+      <div className="gg-spacer">
+        <label className="gg-field gg-field--bare gg-form">
           Ученик
-          <select value={selectedStudentId ?? ''} onChange={(e) => setSelectedStudentId(Number(e.target.value) || null)} style={{ fontSize: 16, minHeight: 44, padding: '10px 12px' }}>
+          <select value={selectedStudentId ?? ''} onChange={(e) => setSelectedStudentId(Number(e.target.value) || null)}>
             <option value="">— выберите ученика —</option>
             {students.map((s) => <option key={s.id} value={s.id}>{s.fullName} ({s.class?.name})</option>)}
           </select>
         </label>
       </div>
 
-      <label style={{ display: 'flex', flexDirection: 'column', gap: 4, maxWidth: 600, marginBottom: 12 }}>
+      <label className="gg-field gg-field--wide">
         Текст рекомендации
-        <textarea value={text} onChange={(e) => setText(e.target.value)} rows={4} style={{ fontSize: 16, minHeight: 100, padding: '10px 12px' }} placeholder="Введите текст рекомендации..." />
+        <textarea value={text} onChange={(e) => setText(e.target.value)} rows={4} className="gg-textarea" placeholder="Введите текст рекомендации..." />
       </label>
 
-      <button onClick={create} disabled={saving || !selectedStudentId || !text.trim()} style={{ marginBottom: 16, padding: '14px 20px', fontSize: 16, minHeight: 48, width: '100%', maxWidth: 300 }}>
+      <button onClick={create} disabled={saving || !selectedStudentId || !text.trim()} className="gg-btn-wide gg-spacer">
         {saving ? 'Сохранение…' : 'Создать рекомендацию'}
       </button>
 
@@ -112,12 +112,12 @@ export function AdminRecommendations() {
         <div className="gg-logs-cards">
           {recs.map((r) => (
             <div key={r.id} className="gg-log-card">
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
+              <div className="gg-row-between">
                 <strong>{r.student.fullName} ({r.student.class?.name})</strong>
-                <span style={{ color: 'var(--text-secondary)', fontSize: 14 }}>{r.isCurrent ? 'Актуальная' : 'Архивная'}</span>
+                <span className="gg-meta">{r.isCurrent ? 'Актуальная' : 'Архивная'}</span>
               </div>
-              <div style={{ marginBottom: 4, whiteSpace: 'pre-wrap' }}>{r.text}</div>
-              <div style={{ fontSize: 14, color: 'var(--text-secondary)' }}>Автор: {r.author.fullName} | {new Date(r.createdAt).toLocaleString('ru-RU')}</div>
+              <div className="gg-prewrap gg-row-tight">{r.text}</div>
+              <div className="gg-meta">Автор: {r.author.fullName} | {new Date(r.createdAt).toLocaleString('ru-RU')}</div>
             </div>
           ))}
         </div>

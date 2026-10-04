@@ -46,8 +46,8 @@ export function VospitaniePage() {
     <div>
       <h1>Воспитательная работа</h1>
 
-      <label style={{ marginBottom: 16 }}>
-        Класс <select value={classId} onChange={(e) => setParam('classId', e.target.value)} style={{ fontSize: 16, minHeight: 44, padding: '10px 12px' }}>
+      <label className="gg-field">
+        Класс <select value={classId} onChange={(e) => setParam('classId', e.target.value)}>
           <option value="">Все доступные</option>
           {classes.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
         </select>
@@ -55,7 +55,7 @@ export function VospitaniePage() {
 
       {err && <p className="gg-error">{err}</p>}
 
-      <div style={{ display: 'grid', gap: 24, marginTop: 16 }}>
+      <div className="gg-stack">
         <section>
           <h2>Классы и ответственные</h2>
           <div className="gg-table-wrap">
@@ -65,7 +65,7 @@ export function VospitaniePage() {
                 {classes.map((c) => (
                   <tr key={c.id}>
                     <td>{c.name}</td>
-                    <td>{c.responsible?.fullName ?? <span style={{ color: 'var(--text-secondary)' }}>— не назначен —</span>}</td>
+                    <td>{c.responsible?.fullName ?? <span className="gg-muted">— не назначен —</span>}</td>
                   </tr>
                 ))}
               </tbody>
@@ -76,10 +76,10 @@ export function VospitaniePage() {
         <section>
           <h2>Ученики</h2>
           {students.length === 0 ? <p className="gg-empty">Учеников нет</p> : (
-            <ul style={{ display: 'grid', gap: 8, listStyle: 'none', padding: 0 }}>
+            <ul className="gg-list">
               {students.map((s) => (
-                <li key={s.id} className="gg-log-card" style={{ padding: 12 }}>
-                  <strong>{s.fullName}</strong> <span style={{ color: 'var(--text-secondary)' }}>({s.className})</span>
+                <li key={s.id} className="gg-log-card gg-log-card--compact">
+                  <strong>{s.fullName}</strong> <span className="gg-muted">({s.className})</span>
                 </li>
               ))}
             </ul>
@@ -92,12 +92,12 @@ export function VospitaniePage() {
             <div className="gg-logs-cards">
               {recommendations.map((r) => (
                 <div key={r.id} className="gg-log-card">
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
+                  <div className="gg-row-between">
                     <strong>{r.student.fullName}</strong>
-                    <span style={{ color: 'var(--text-secondary)', fontSize: 14 }}>{new Date(r.createdAt).toLocaleString('ru-RU')}</span>
+                    <span className="gg-meta">{new Date(r.createdAt).toLocaleString('ru-RU')}</span>
                   </div>
-                  <div style={{ whiteSpace: 'pre-wrap', marginBottom: 4 }}>{r.text}</div>
-                  <div style={{ fontSize: 14, color: 'var(--text-secondary)' }}>Автор: {r.author.fullName}</div>
+                  <div className="gg-prewrap">{r.text}</div>
+                  <div className="gg-meta">Автор: {r.author.fullName}</div>
                 </div>
               ))}
             </div>
@@ -110,12 +110,12 @@ export function VospitaniePage() {
             <div className="gg-logs-cards">
               {comments.map((c) => (
                 <div key={c.id} className="gg-log-card">
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
-                    <span style={{ fontWeight: 600 }}>{c.subject} · {new Date(c.lessonDate).toLocaleDateString('ru-RU')}</span>
-                    <span style={{ color: 'var(--text-secondary)' }}>{c.teacher.fullName}</span>
+                  <div className="gg-row-between">
+                    <span className="gg-strong">{c.subject} · {new Date(c.lessonDate).toLocaleDateString('ru-RU')}</span>
+                    <span className="gg-muted">{c.teacher.fullName}</span>
                   </div>
-                  <div style={{ marginBottom: 4 }}><strong>Ученик:</strong> {c.student.fullName} ({c.student.className})</div>
-                  <div style={{ whiteSpace: 'pre-wrap' }}>{c.text}</div>
+                  <div className="gg-row-tight"><strong>Ученик:</strong> {c.student.fullName} ({c.student.className})</div>
+                  <div className="gg-prewrap">{c.text}</div>
                 </div>
               ))}
             </div>
@@ -125,10 +125,10 @@ export function VospitaniePage() {
         <section>
           <h2>Ответственные воспитатели</h2>
           {data.responsible.length === 0 ? <p className="gg-empty">Назначений нет</p> : (
-            <ul style={{ display: 'grid', gap: 8, listStyle: 'none', padding: 0 }}>
+            <ul className="gg-list">
               {data.responsible.map((r) => (
-                <li key={r.classId} className="gg-log-card" style={{ padding: 12 }}>
-                  <strong>{r.className}</strong> — {r.teacherFullName ?? <span style={{ color: 'var(--text-secondary)' }}>— не назначен —</span>}
+                <li key={r.classId} className="gg-log-card gg-log-card--compact">
+                  <strong>{r.className}</strong> — {r.teacherFullName ?? <span className="gg-muted">— не назначен —</span>}
                 </li>
               ))}
             </ul>

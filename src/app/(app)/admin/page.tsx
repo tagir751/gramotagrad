@@ -17,7 +17,7 @@ async function AdminGate() {
 
 export default function Admin() {
   return (
-    <Suspense fallback={<div style={{ padding: 16 }}>Загрузка…</div>}>
+    <Suspense fallback={<div className="gg-pad">Загрузка…</div>}>
       <AdminGate />
     </Suspense>
   )

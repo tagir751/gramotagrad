@@ -78,8 +78,8 @@ export function StudentsPage() {
       <div className="gg-greeting">
         <div className="gg-greeting-hello">Ученики</div>
       </div>
-      <div className="gg-card" style={{ marginBottom: 12 }}>
-        <label className="gg-field" style={{ marginBottom: 0 }}>
+      <div className="gg-card gg-spacer">
+        <label className="gg-field gg-field--bare">
           Класс
           <select value={classId} onChange={(e) => setParam('classId', e.target.value)}>
             <option value="">Все доступные</option>
@@ -100,19 +100,19 @@ export function StudentsPage() {
             <h2><span>👨‍🎓</span> Список</h2>
             <span className="gg-count">{list.length}</span>
           </div>
-          <div className="gg-logs-cards" style={{ display: 'flex' }}>
+          <div className="gg-logs-cards">
             {list.map((s) => (
-              <div key={s.id} className="gg-log-card" style={{ opacity: s.active ? 1 : 0.6 }}>
+              <div key={s.id} className={s.active ? 'gg-log-card' : 'gg-log-card gg-inactive'}>
                 <div className="gg-student-row">
                   <span className="gg-avatar">{initials(s.fullName)}</span>
                   <span className="gg-student-name">
                     {s.fullName}
-                    <div style={{ fontSize: 12, color: 'var(--text-secondary)', fontWeight: 500 }}>
+                    <div className="gg-student-meta">
                       {s.class?.name}{s.hasRecommendation ? ' · ★ есть рекомендация' : ''}
                       {!s.active ? ' · скрыт' : ''}
                     </div>
                   </span>
-                  <button className="gg-btn-secondary" onClick={() => toggleActive(s)} style={{ padding: '8px 14px', minHeight: 44, width: 'auto' }}>
+                  <button className="gg-btn-secondary gg-btn-sm" onClick={() => toggleActive(s)}>
                     {s.active ? 'Скрыть' : 'Вернуть'}
                   </button>
                 </div>

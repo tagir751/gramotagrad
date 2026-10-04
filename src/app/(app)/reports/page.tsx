@@ -24,7 +24,7 @@ async function ReportsGate() {
 
 export default function Reports() {
   return (
-    <Suspense fallback={<div style={{ padding: 16 }}>Загрузка отчётов…</div>}>
+    <Suspense fallback={<div className="gg-pad">Загрузка отчётов…</div>}>
       <ReportsGate />
     </Suspense>
   )

@@ -8,48 +8,74 @@
 :root {
   color-scheme: light;
 
-  /* --- Поверхности (bg совпадает с themeColor из layout.tsx) --- */
-  --gg-bg: #f0f2f5;
+  /* ============================================================
+     ФИРМЕННАЯ ПАЛИТРА. Снята пипеткой с public/brand/*.webp:
+       • замок и логотип  — королевский синий #093391 / #0236A3
+       • закладка в книге — тёплый оранжевый  #E67A21 / #F06005
+     Отсюда вся тема: глубокий синий + янтарь на тёплой бумаге —
+     академическая геральдика «Грамота Града», а не нейтральный iOS.
+     Контраст всех текстовых токенов проверен: AA на белом,
+     на --gg-bg и на --gg-surface-2.
+     ============================================================ */
+
+  /* --- Бренд: синий --- */
+  --gg-brand:        #0d3a94;  /* 10.2:1 на белом */
+  --gg-brand-strong: #092a6d;  /* hover / pressed, 13.4:1 */
+  --gg-brand-soft:   rgba(13, 58, 148, 0.09);
+  --gg-brand-line:   rgba(13, 58, 148, 0.16);
+
+  /* --- Бренд: янтарь (закладка) --- */
+  --gg-amber:        #e0700f;  /* заливки, иконки, декор */
+  --gg-amber-strong: #b85a09;  /* заливка под белым текстом, 4.7:1 */
+  --gg-amber-ink:    #8a4b00;  /* янтарный ТЕКСТ по светлому, 6.8:1 */
+  --gg-amber-soft:   rgba(224, 112, 15, 0.12);
+
+  /* Акцент = бренд-синий. Имена --gg-accent* сохранены: на них завязан
+     весь существующий CSS, менять их означало бы трогать всю разметку.
+     Литералы, а не var(--gg-brand): var()-ссылки внутри :root роняют
+     парсер Turbopack (см. примечание в SHIM ниже). */
+  --gg-accent:        #0d3a94;
+  --gg-accent-strong: #092a6d;
+  --gg-accent-soft:   rgba(13, 58, 148, 0.09);
+  --gg-ring:          rgba(13, 58, 148, 0.28);
+
+  /* --- Поверхности: тёплая бумага вместо холодного серого --- */
+  --gg-bg: #f8f6f1;
   --gg-surface: #ffffff;
-  --gg-surface-2: #f2f3f7;   /* hover / вторичные заливки */
-  --gg-surface-3: #e9ebf1;
+  --gg-surface-2: #f3f0ea;   /* hover / вторичные заливки */
+  --gg-surface-3: #e9e4d9;
 
-  /* --- Текст (контраст ≥ AA на белом и на --gg-bg) --- */
-  --gg-text:   #1d1d1f;  /* 15.5:1 */
-  --gg-text-2: #515154;  /* 7.5:1  */
-  --gg-text-3: #636366;  /* 5.2:1 на --gg-bg */
+  /* --- Текст: тёплый сине-графитовый, не чистый чёрный --- */
+  --gg-text:   #1a2236;  /* 15.8:1 */
+  --gg-text-2: #4b5468;  /*  7.6:1 */
+  --gg-text-3: #646d81;  /*  5.2:1 */
   --gg-on-accent: #ffffff;
-
-  /* --- Акцент --- */
-  --gg-accent:        #0071e3;
-  --gg-accent-strong: #005fd0;
-  --gg-accent-soft:   rgba(0, 113, 227, 0.10);
-  --gg-ring:          rgba(0, 113, 227, 0.30);
 
   --gg-success:        #157347;
   --gg-success-strong: #0f5c38;
-  --gg-danger:         #d92d20;
-  --gg-danger-strong:  #b42318;
+  --gg-danger:         #b02a1d;
+  --gg-danger-strong:  #8f2117;
 
   /* --- Пилюли оценок: чернила + tint (5/4/3/2/Н) --- */
-  --gg-ink-5: #157347;  --gg-tint-5: rgba(52, 199, 89, 0.16);
-  --gg-ink-4: #0b62c4;  --gg-tint-4: rgba(0, 113, 227, 0.10);
-  --gg-ink-3: #8a5200;  --gg-tint-3: rgba(255, 159, 10, 0.18);
-  --gg-ink-2: #b42318;  --gg-tint-2: rgba(255, 59, 48, 0.12);
-  --gg-ink-n: #515154;  --gg-tint-n: rgba(120, 120, 128, 0.12);
+  --gg-ink-5: #1a6b43;  --gg-tint-5: rgba(26, 160, 94, 0.15);
+  --gg-ink-4: #1d4fa3;  --gg-tint-4: rgba(29, 79, 163, 0.11);
+  --gg-ink-3: #8a4b00;  --gg-tint-3: rgba(224, 112, 15, 0.16);
+  --gg-ink-2: #b02a1d;  --gg-tint-2: rgba(214, 56, 40, 0.12);
+  --gg-ink-n: #5a6274;  --gg-tint-n: rgba(90, 98, 116, 0.11);
 
-  /* --- Стат-карточки: Сегодня / Позже / Ожидание --- */
-  --gg-ink-info:  #0b62c4; --gg-tint-info:  rgba(0, 113, 227, 0.10);
-  --gg-ink-later: #4646c6; --gg-tint-later: rgba(88, 86, 214, 0.12);
-  --gg-ink-wait:  #8a5200; --gg-tint-wait:  rgba(255, 159, 10, 0.18);
+  /* --- Стат-карточки --- */
+  --gg-ink-info:  #1d4fa3; --gg-tint-info:  rgba(29, 79, 163, 0.11);
+  --gg-ink-later: #4a3f9e; --gg-tint-later: rgba(90, 76, 190, 0.12);
+  --gg-ink-wait:  #8a4b00; --gg-tint-wait:  rgba(224, 112, 15, 0.16);
 
-  /* --- Линии, тени, радиусы --- */
-  --gg-border:        rgba(60, 60, 67, 0.10);
-  --gg-border-strong: rgba(60, 60, 67, 0.18);
-  --gg-shadow-1: 0 1px 2px rgba(17,24,39,.05), 0 1px 3px rgba(17,24,39,.05);
-  --gg-shadow-2: 0 2px 6px rgba(17,24,39,.05), 0 10px 28px rgba(17,24,39,.08);
-  --gg-shadow-3: 0 6px 16px rgba(17,24,39,.08), 0 18px 44px rgba(17,24,39,.10);
-  --gg-shadow-seg: 0 1px 2px rgba(17,24,39,.14), 0 0 0 .5px rgba(17,24,39,.04);
+  /* --- Линии, тени, радиусы ---
+     Тени тёплые (коричневатая база), иначе на бумажном фоне они сереют. */
+  --gg-border:        rgba(60, 52, 40, 0.12);
+  --gg-border-strong: rgba(60, 52, 40, 0.20);
+  --gg-shadow-1: 0 1px 2px rgba(42, 35, 24, .05), 0 1px 3px rgba(42, 35, 24, .05);
+  --gg-shadow-2: 0 2px 6px rgba(42, 35, 24, .05), 0 10px 28px rgba(42, 35, 24, .08);
+  --gg-shadow-3: 0 6px 16px rgba(42, 35, 24, .08), 0 18px 44px rgba(42, 35, 24, .10);
+  --gg-shadow-seg: 0 1px 2px rgba(42, 35, 24, .14), 0 0 0 .5px rgba(42, 35, 24, .04);
   --gg-r-sm: 10px; --gg-r-md: 14px; --gg-r-lg: 18px; --gg-r-xl: 24px;
   --gg-r-btn: 12px; --gg-r-pill: 999px;
 
@@ -62,51 +88,51 @@
      ============================================================ */
   /* SHIM Ink: var()-ссылки внутри :root роняют Turbopack-парсер,
      поэтому здесь литералы 1:1 из токенов выше. При смене токенов — обновить. */
-  --bg: #f0f2f5;
-  --paper: #f0f2f5;
+  --bg: #f8f6f1;
+  --paper: #f8f6f1;
   --card-bg: #ffffff;
-  --text: #1d1d1f;
-  --text-strong: #1d1d1f;
-  --text-secondary: #515154;
-  --text-muted: #515154;
-  --text-tertiary: #636366;
-  --separator: rgba(60, 60, 67, 0.10);
-  --gray: #e9ebf1;
-  --gray-light: #f2f3f7;
-  --blue: #0071e3;
-  --blue-light: rgba(0, 113, 227, 0.10);
-  --blue-glow: rgba(0, 113, 227, 0.30);
+  --text: #1a2236;
+  --text-strong: #1a2236;
+  --text-secondary: #4b5468;
+  --text-muted: #4b5468;
+  --text-tertiary: #646d81;
+  --separator: rgba(60, 52, 40, 0.12);
+  --gray: #e9e4d9;
+  --gray-light: #f3f0ea;
+  --blue: #0d3a94;
+  --blue-light: rgba(13, 58, 148, 0.09);
+  --blue-glow: rgba(13, 58, 148, 0.28);
   --green: #157347;
-  --green-light: rgba(52, 199, 89, 0.16);
-  --green-glow: rgba(52,199,89,.30);
-  --yellow: #8a5200;
-  --yellow-light: rgba(255, 159, 10, 0.18);
-  --yellow-glow: rgba(255,159,10,.28);
-  --orange: #c2410c;
-  --orange-light: rgba(255, 149, 0, 0.15);
-  --red: #d92d20;
-  --red-light: rgba(255, 59, 48, 0.12);
-  --red-glow: rgba(255,59,48,.30);
-  --purple: #5856d6;
-  --purple-light: rgba(88, 86, 214, 0.12);
+  --green-light: rgba(26, 160, 94, 0.15);
+  --green-glow: rgba(26, 160, 94, .30);
+  --yellow: #8a4b00;
+  --yellow-light: rgba(224, 112, 15, 0.16);
+  --yellow-glow: rgba(224, 112, 15, .28);
+  --orange: #b85a09;
+  --orange-light: rgba(224, 112, 15, 0.12);
+  --red: #b02a1d;
+  --red-light: rgba(214, 56, 40, 0.12);
+  --red-glow: rgba(214, 56, 40, .30);
+  --purple: #4a3f9e;
+  --purple-light: rgba(90, 76, 190, 0.12);
   --success: #157347;
-  --warning: #8a5200;
-  --danger: #d92d20;
-  --shadow-sm: 0 1px 2px rgba(17,24,39,.05), 0 1px 3px rgba(17,24,39,.05);
-  --shadow-md: 0 2px 6px rgba(17,24,39,.05), 0 10px 28px rgba(17,24,39,.08);
-  --shadow-lg: 0 6px 16px rgba(17,24,39,.08), 0 18px 44px rgba(17,24,39,.10);
+  --warning: #8a4b00;
+  --danger: #b02a1d;
+  --shadow-sm: 0 1px 2px rgba(42, 35, 24, .05), 0 1px 3px rgba(42, 35, 24, .05);
+  --shadow-md: 0 2px 6px rgba(42, 35, 24, .05), 0 10px 28px rgba(42, 35, 24, .08);
+  --shadow-lg: 0 6px 16px rgba(42, 35, 24, .08), 0 18px 44px rgba(42, 35, 24, .10);
   --radius-sm: 10px;
   --radius-md: 14px;
   --radius-lg: 18px;
   --radius-xl: 24px;
-  --brand-900: #1d1d1f;
-  --brand-600: #0071e3;
-  --brand-500: #0071e3;
-  --brand-100: rgba(0, 113, 227, 0.10);
-  --brand-50: #f0f2f5;
-  --accent-600: #c2410c;
-  --accent-500: #c2410c;
-  --accent-100: rgba(255, 159, 10, 0.18);
+  --brand-900: #0a2558;
+  --brand-600: #0d3a94;
+  --brand-500: #0d3a94;
+  --brand-100: rgba(13, 58, 148, 0.09);
+  --brand-50: #f8f6f1;
+  --accent-600: #b85a09;
+  --accent-500: #e0700f;
+  --accent-100: rgba(224, 112, 15, 0.16);
   /* [/SHIM] */
 }
 
@@ -115,7 +141,14 @@
 html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
-  background: var(--gg-bg);
+  /* Тёплая бумага + два едва заметных пятна фирменных цветов:
+     янтарь сверху справа, синий снизу слева. Градиенты статичные и
+     без изображений — офлайн-сборка на Beget это требование. */
+  background:
+    radial-gradient(1100px 620px at 100% -10%, rgba(224, 112, 15, 0.07), transparent 60%),
+    radial-gradient(900px 560px at -10% 108%, rgba(13, 58, 148, 0.06), transparent 62%),
+    var(--gg-bg);
+  background-attachment: fixed;
   color: var(--gg-text);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'SF Pro Display', Roboto, 'Helvetica Neue', Arial, sans-serif;
   font-size: 15px; line-height: 1.5;
@@ -152,10 +185,18 @@ button:not([class]):disabled { opacity: .45; cursor: not-allowed; }
   display: flex; align-items: center; gap: 10px;
   padding: 10px 16px;
   padding-top: calc(10px + env(safe-area-inset-top));
-  background: rgba(255, 255, 255, 0.80);
+  background: rgba(255, 253, 250, 0.82);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
   backdrop-filter: saturate(180%) blur(20px);
   border-bottom: 1px solid var(--gg-border);
+}
+/* Фирменная линия под шапкой: синий переходит в янтарь — те же два
+   цвета, что в печати на логотипе. Тонкая деталь, но именно она
+   отличает «наш» интерфейс от любого дефолтного светлого шаблона. */
+.gg-header::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: -2px; height: 2px;
+  background: linear-gradient(90deg, var(--gg-brand) 0%, var(--gg-brand) 42%, var(--gg-amber) 100%);
+  opacity: .85;
 }
 .gg-logo { height: 32px; width: auto; display: block; flex: none; }
 .gg-burger { display: none; }
@@ -214,22 +255,35 @@ button:not([class]):disabled { opacity: .45; cursor: not-allowed; }
 }
 @supports ((-webkit-background-clip: text) or (background-clip: text)) {
   .gg-greeting-hello {
-    background: linear-gradient(92deg, #0071e3, #5856d6);
+    background: linear-gradient(92deg, #0a2558 0%, #0d3a94 55%, #1d4fa3 100%);
     -webkit-background-clip: text; background-clip: text;
     -webkit-text-fill-color: transparent; color: transparent;
   }
+}
+/* Янтарная засечка над приветствием — перекличка с закладкой книги в логотипе. */
+.gg-greeting-date::before {
+  content: ''; display: block;
+  width: 34px; height: 3px; margin-bottom: 9px;
+  border-radius: var(--gg-r-pill);
+  background: linear-gradient(90deg, var(--gg-amber), var(--gg-brand));
 }
 
 /* ---------- Заголовки страниц/секций ---------- */
 .gg-main h1 { margin: 0 0 16px; font-size: 24px; font-weight: 800; letter-spacing: -0.02em; }
 .gg-main h2 { margin: 0 0 12px; font-size: 20px; font-weight: 700; letter-spacing: -0.01em; }
-.gg-section-header { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 22px 0 10px; }
+.gg-main h1, .gg-main h2 { color: var(--gg-brand-strong); }
+.gg-section-header {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  margin: 22px 0 10px; padding-bottom: 8px;
+  border-bottom: 1px solid var(--gg-brand-line);
+}
 .gg-section-header h2 { margin: 0; font-size: 17px; }
+/* Счётчик — янтарный: тёплый акцент на синей странице, второй цвет бренда. */
 .gg-count {
   display: inline-flex; align-items: center; justify-content: center;
   min-width: 26px; height: 24px; padding: 0 9px;
   border-radius: var(--gg-r-pill);
-  background: var(--gg-accent-soft); color: var(--gg-accent-strong);
+  background: var(--gg-amber-soft); color: var(--gg-amber-ink);
   font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums;
 }
 
@@ -266,9 +320,9 @@ button:not([class]):disabled { opacity: .45; cursor: not-allowed; }
 .gg-table { width: 100%; min-width: 700px; border-collapse: separate; border-spacing: 0; font-size: 14px; }
 .gg-table th {
   padding: 10px 14px; text-align: left; white-space: nowrap;
-  font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
-  color: var(--gg-text-3); background: var(--gg-surface-2);
-  border-bottom: 1px solid var(--gg-border);
+  font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--gg-brand-strong); background: var(--gg-brand-soft);
+  border-bottom: 1px solid var(--gg-brand-line);
 }
 .gg-table td { padding: 12px 14px; border-bottom: 1px solid var(--gg-border); font-variant-numeric: tabular-nums; }
 .gg-table tbody tr:last-child td { border-bottom: 0; }
@@ -393,7 +447,7 @@ button:not([class]):disabled { opacity: .45; cursor: not-allowed; }
   transition: background var(--gg-t-fast) var(--gg-ease), color var(--gg-t-fast) var(--gg-ease), border-color var(--gg-t-fast) var(--gg-ease);
 }
 .gg-chip:hover { background: var(--gg-surface-2); color: var(--gg-text); }
-.gg-chip[aria-pressed='true'], .gg-chip.is-active { background: var(--gg-text); border-color: var(--gg-text); color: #fff; }
+.gg-chip[aria-pressed='true'], .gg-chip.is-active { background: var(--gg-brand); border-color: var(--gg-brand); color: #fff; }
 
 /* ---------- Пагинация ---------- */
 .gg-pagination { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
@@ -420,7 +474,9 @@ button:not([class]):disabled { opacity: .45; cursor: not-allowed; }
 .gg-avatar {
   flex: none; display: grid; place-items: center;
   width: 38px; height: 38px; border-radius: 50%;
-  background: var(--gg-accent-soft); color: var(--gg-accent-strong);
+  background: linear-gradient(145deg, rgba(13, 58, 148, 0.13), rgba(224, 112, 15, 0.13));
+  color: var(--gg-brand-strong);
+  box-shadow: inset 0 0 0 1px var(--gg-brand-line);
   font-size: 14px; font-weight: 700; letter-spacing: .02em;
 }
 
@@ -429,18 +485,45 @@ button:not([class]):disabled { opacity: .45; cursor: not-allowed; }
   min-height: 100dvh;
   display: flex; align-items: center; justify-content: center;
   padding: 24px 16px calc(24px + env(safe-area-inset-bottom));
+  /* Вход — единственный экран без шапки, поэтому фирменность держит фон:
+     глубокий синий «двор крепости» с янтарным светом сверху. */
+  background:
+    radial-gradient(760px 420px at 50% -8%, rgba(224, 112, 15, 0.16), transparent 62%),
+    radial-gradient(900px 560px at 50% 112%, rgba(13, 58, 148, 0.16), transparent 60%),
+    var(--gg-bg);
 }
 .gg-login-card {
+  position: relative; overflow: hidden;
   width: 100%; max-width: 400px;
   display: flex; flex-direction: column; gap: 14px;
-  padding: 28px 24px;
+  padding: 30px 24px 28px;
   background: var(--gg-surface);
   border: 1px solid var(--gg-border);
   border-radius: var(--gg-r-xl);
   box-shadow: var(--gg-shadow-3);
 }
-.gg-login-seal { width: 72px; height: 72px; align-self: center; }
-.gg-login-title { margin: 2px 0 6px; text-align: center; font-size: 24px; font-weight: 800; letter-spacing: -0.02em; color: var(--gg-text); }
+/* Фирменная лента по верхнему краю карточки */
+.gg-login-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+  background: linear-gradient(90deg, var(--gg-brand), var(--gg-brand) 45%, var(--gg-amber));
+}
+.gg-login-seal {
+  width: 104px; height: 104px; align-self: center;
+  filter: drop-shadow(0 6px 14px rgba(13, 58, 148, 0.18));
+}
+.gg-login-title {
+  margin: 2px 0 2px; text-align: center;
+  font-size: 24px; font-weight: 800; letter-spacing: -0.02em;
+  color: var(--gg-brand-strong);
+}
+/* Подпись под заголовком берём из логотипа — без правки разметки,
+   чтобы не трогать LoginForm.tsx. */
+.gg-login-title::after {
+  content: 'Образовательный центр осознанного обучения';
+  display: block; margin-top: 6px;
+  font-size: 12px; font-weight: 600; letter-spacing: .01em;
+  color: var(--gg-amber-ink);
+}
 
 /* ============================================================
    [NEW] Сегмент-контрол (AdminTabs) и стат-карточки (ReportsPage)
@@ -472,7 +555,7 @@ button:not([class]):disabled { opacity: .45; cursor: not-allowed; }
 
 .gg-stat-grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); }
 .gg-stat {
-  position: relative;
+  position: relative; overflow: hidden;
   display: flex; flex-direction: column; gap: 4px;
   background: var(--gg-surface);
   border: 1px solid var(--gg-border);
@@ -481,6 +564,14 @@ button:not([class]):disabled { opacity: .45; cursor: not-allowed; }
   padding: 16px 18px;
   transition: box-shadow var(--gg-t) var(--gg-ease), transform var(--gg-t) var(--gg-ease);
 }
+/* Цветной корешок слева — карточки читаются с одного взгляда. */
+.gg-stat::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+  background: var(--gg-ink-n);
+}
+.gg-stat--today::before { background: var(--gg-ink-info); }
+.gg-stat--later::before { background: var(--gg-ink-later); }
+.gg-stat--wait::before  { background: var(--gg-amber); }
 .gg-stat:hover { box-shadow: var(--gg-shadow-2); transform: translateY(-1px); }
 .gg-stat__label { font-size: 13px; font-weight: 600; color: var(--gg-text-3); }
 .gg-stat__value { font-size: 28px; font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
@@ -496,6 +587,82 @@ button:not([class]):disabled { opacity: .45; cursor: not-allowed; }
 .gg-stat--today .gg-stat__value { color: var(--gg-ink-info); }
 .gg-stat--later .gg-stat__value { color: var(--gg-ink-later); }
 .gg-stat--wait  .gg-stat__value { color: var(--gg-ink-wait); }
+
+/* ============================================================
+   Утилиты вёрстки — замена inline style={{...}} в .tsx.
+   Блок идёт ПОСЛЕ кнопок намеренно: .gg-btn-sm должен побеждать
+   padding/width из .gg-btn-secondary при равной специфичности.
+   ============================================================ */
+.gg-stack        { display: grid; gap: 24px; margin-top: 16px; }
+.gg-list         { display: grid; gap: 8px; list-style: none; padding: 0; margin: 0; }
+.gg-row-between  { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.gg-meta         { font-size: 14px; color: var(--gg-text-3); }
+.gg-hint         { margin: 0 0 10px; font-size: 13px; color: var(--gg-text-3); }
+.gg-student-meta { margin-top: 2px; font-size: 12px; font-weight: 500; color: var(--gg-text-3); }
+.gg-actions      { display: flex; gap: 8px; flex-wrap: wrap; }
+.gg-prewrap      { white-space: pre-wrap; }
+.gg-narrow       { max-width: 320px; }
+.gg-inactive     { opacity: .6; }
+.gg-spacer       { margin-bottom: 16px; }
+.gg-muted        { color: var(--gg-text-3); }
+.gg-strong       { font-weight: 600; }
+.gg-row-tight    { margin-bottom: 4px; }
+/* Модификаторы существующих блоков */
+.gg-field--bare        { margin-bottom: 0; }
+.gg-student-row--gap   { margin-bottom: 8px; }
+.gg-btn--spaced        { margin-top: 12px; }
+.gg-log-card--compact  { padding: 12px; }
+/* Компактная кнопка для ячеек таблиц и строк списка (тач-цель 44px сохранена) */
+.gg-btn-sm { min-height: 44px; padding: 8px 14px; width: auto; font-size: 15px; }
+/* Секция-панель (импорт/экспорт, формы назначения) */
+.gg-panel {
+  margin-bottom: 24px; padding: 18px;
+  background: var(--gg-surface);
+  border: 1px solid var(--gg-border);
+  border-radius: var(--gg-r-lg);
+  box-shadow: var(--gg-shadow-1);
+}
+.gg-panel > h3 { margin: 0 0 14px; font-size: 16px; font-weight: 700; color: var(--gg-brand-strong); }
+.gg-panel--mt { margin-top: 16px; }
+/* fieldset тоже бывает панелью — снимаем браузерные отступы legend */
+fieldset.gg-panel { min-width: 0; }
+fieldset.gg-panel > legend { padding: 0 6px; }
+
+/* Формы */
+.gg-form          { display: flex; flex-direction: column; gap: 8px; max-width: 400px; }
+.gg-field--full   { max-width: 100%; }
+.gg-field--wide   { max-width: 600px; }
+.gg-textarea      { min-height: 100px; padding: 10px 12px; resize: vertical; }
+.gg-subhead       { margin-bottom: 12px; font-weight: 700; color: var(--gg-brand-strong); }
+.gg-check-row {
+  display: flex; align-items: center; gap: 8px;
+  min-height: 44px; padding: 8px 12px;
+  background: var(--gg-surface);
+  border: 1px solid var(--gg-border);
+  border-radius: var(--gg-r-sm);
+}
+.gg-check-label { display: flex; align-items: center; gap: 8px; min-height: 44px; cursor: pointer; }
+.gg-checkbox    { width: 20px; height: 20px; min-height: 0; accent-color: var(--gg-brand); cursor: pointer; }
+
+/* Кнопки-утилиты */
+.gg-btn-wide  { width: 100%; max-width: 300px; }
+.gg-btn-block { width: 100%; margin-top: 8px; }
+.gg-flex-1    { flex: 1; }
+
+/* Сетки и отступы */
+.gg-grid-240 { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.gg-grid-200 { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+.gg-actions--mt   { margin-top: 16px; }
+.gg-actions--wide { gap: 24px; }
+.gg-mb-8     { margin-bottom: 8px; }
+.gg-mt-12    { margin-top: 12px; }
+.gg-pad      { padding: 16px; }
+.gg-block    { display: block; }
+.gg-preline  { white-space: pre-line; }
+.gg-loading  { padding: 40px; color: var(--gg-text-3); }
+.gg-col-200  { width: 200px; }
+.gg-col-180  { width: 180px; }
+@media (max-width: 640px) { .gg-col-200, .gg-col-180 { width: auto; } }
 
 /* [NEW] Опционально, фаза 2 */
 .gg-filterbar { display: flex; gap: 8px; flex-wrap: wrap; align-items: flex-end; margin-bottom: 12px; }

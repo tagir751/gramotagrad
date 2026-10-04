@@ -81,29 +81,29 @@ export function AdminImportExport() {
     <div>
       <h2>Импорт / Экспорт</h2>
       {err && <p className="gg-error">{err}</p>}
-      {ok && <p className="gg-ok" style={{ whiteSpace: 'pre-line' }}>{ok}</p>}
+      {ok && <p className="gg-ok gg-preline">{ok}</p>}
 
-      <section style={{ marginBottom: 24, padding: 16, border: '1px solid var(--separator)', borderRadius: 12, background: 'var(--card-bg)' }}>
+      <section className="gg-panel">
         <h3>Импорт из Excel</h3>
-        <label style={{ display: 'flex', flexDirection: 'column', gap: 4, marginBottom: 12 }}>
+        <label className="gg-field">
           Файл (.xlsx, до 5МБ)
-          <input type="file" accept=".xlsx,.xls" onChange={(e) => setImportFile(e.target.files?.[0] ?? null)} style={{ fontSize: 16, minHeight: 44, padding: '10px 12px' }} />
+          <input type="file" accept=".xlsx,.xls" onChange={(e) => setImportFile(e.target.files?.[0] ?? null)} />
         </label>
-        <p style={{ margin: '0 0 12px', fontSize: 13, color: 'var(--text-secondary)' }}>
+        <p className="gg-hint">
           Записи только добавляются: существующие ученики, классы и предметы не затираются,
           дубли пропускаются и попадают в отчёт.
         </p>
-        <button onClick={handleImport} disabled={saving || !importFile} style={{ padding: '14px 20px', fontSize: 16, minHeight: 48, width: '100%', maxWidth: 300 }}>
+        <button onClick={handleImport} disabled={saving || !importFile} className="gg-btn-wide">
           {saving ? 'Импорт…' : 'Импортировать'}
         </button>
       </section>
 
-      <section style={{ padding: 16, border: '1px solid var(--separator)', borderRadius: 12, background: 'var(--card-bg)' }}>
+      <section className="gg-panel">
         <h3>Экспорт в Excel</h3>
-        <div style={{ display: 'grid', gap: 12, gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', marginBottom: 16 }}>
-          <label style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+        <div className="gg-grid-200 gg-spacer">
+          <label className="gg-field gg-field--bare">
             Тип данных
-            <select value={exportType} onChange={(e) => setExportType(e.target.value as any)} style={{ fontSize: 16, minHeight: 44, padding: '10px 12px' }}>
+            <select value={exportType} onChange={(e) => setExportType(e.target.value as any)}>
               <option value="full">Всё (full)</option>
               <option value="teachers">Педагоги</option>
               <option value="classes">Классы</option>
@@ -115,20 +115,20 @@ export function AdminImportExport() {
               <option value="logs">Логи</option>
             </select>
           </label>
-          <label style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+          <label className="gg-field gg-field--bare">
             Класс (опционально)
-            <select value={classId} onChange={(e) => setClassId(e.target.value)} style={{ fontSize: 16, minHeight: 44, padding: '10px 12px' }}>
+            <select value={classId} onChange={(e) => setClassId(e.target.value)}>
               <option value="">Все</option>
             </select>
           </label>
-          <label style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-            Дата от <input type="date" value={dateFrom} onChange={(e) => setDateFrom(e.target.value)} style={{ fontSize: 16, minHeight: 44, padding: '10px 12px' }} />
+          <label className="gg-field gg-field--bare">
+            Дата от <input type="date" value={dateFrom} onChange={(e) => setDateFrom(e.target.value)} />
           </label>
-          <label style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-            Дата до <input type="date" value={dateTo} onChange={(e) => setDateTo(e.target.value)} style={{ fontSize: 16, minHeight: 44, padding: '10px 12px' }} />
+          <label className="gg-field gg-field--bare">
+            Дата до <input type="date" value={dateTo} onChange={(e) => setDateTo(e.target.value)} />
           </label>
         </div>
-        <button onClick={handleExport} disabled={saving} style={{ padding: '14px 20px', fontSize: 16, minHeight: 48, width: '100%', maxWidth: 300 }}>
+        <button onClick={handleExport} disabled={saving} className="gg-btn-wide">
           {saving ? 'Экспорт…' : 'Скачать .xlsx'}
         </button>
       </section>

@@ -37,7 +37,7 @@ export function AdminTabs() {
 
   return (
     <div>
-      <div className="gg-tabs" role="tablist" style={{ marginBottom: 16 }}>
+      <div className="gg-tabs gg-spacer" role="tablist">
         {tabs.map((t) => (
           <button
             key={t.key}

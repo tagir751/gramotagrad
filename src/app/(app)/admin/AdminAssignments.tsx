@@ -121,7 +121,7 @@ export function AdminAssignments() {
       <h1>Админ — назначения</h1>
       {err && <p className="gg-error">{err}</p>}
       {ok && <p className="gg-ok">{ok}</p>}
-      <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
+      <div className="gg-actions gg-actions--wide">
         <div>
           <h2>Учителя</h2>
           <ul>
@@ -129,7 +129,7 @@ export function AdminAssignments() {
               <li key={t.id}>
                 <button
                   onClick={() => select(t.id)}
-                  style={{ fontWeight: t.id === selectedId ? 700 : 400 }}
+                  className={t.id === selectedId ? 'gg-strong' : undefined}
                 >
                   {t.fullName} ({t.role})
                 </button>
@@ -142,7 +142,7 @@ export function AdminAssignments() {
           <div>
             <h2>Классы</h2>
             {classes.map((c) => (
-              <label key={c.id} style={{ display: 'block' }}>
+              <label key={c.id} className="gg-block">
                 <input
                   type="checkbox"
                   checked={checkedClasses.has(c.id)}
@@ -154,7 +154,7 @@ export function AdminAssignments() {
             {classes.length === 0 && <p>Классов нет.</p>}
             <h2>Предметы</h2>
             {subjects.map((s) => (
-              <label key={s.id} style={{ display: 'block' }}>
+              <label key={s.id} className="gg-block">
                 <input
                   type="checkbox"
                   checked={checkedSubjects.has(s.id)}
@@ -164,7 +164,7 @@ export function AdminAssignments() {
               </label>
             ))}
             {subjects.length === 0 && <p>Предметов нет.</p>}
-            <button onClick={save} disabled={saving} style={{ marginTop: 12 }}>
+            <button onClick={save} disabled={saving} className="gg-mt-12">
               {saving ? 'Сохранение…' : 'Сохранить назначения'}
             </button>
           </div>

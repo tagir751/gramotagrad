@@ -118,63 +118,63 @@ export function AdminTeachers() {
       {err && <p className="gg-error">{err}</p>}
       {ok && <p className="gg-ok">{ok}</p>}
 
-      <fieldset style={{ border: '1px solid var(--separator)', borderRadius: 12, padding: 16, marginBottom: 16 }}>
-        <legend style={{ fontWeight: 600, marginBottom: 12 }}>{editingId ? 'Редактирование' : 'Создание учителя'}</legend>
+      <fieldset className="gg-panel">
+        <legend className="gg-subhead">{editingId ? 'Редактирование' : 'Создание учителя'}</legend>
 
-        <div style={{ display: 'grid', gap: 12, gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))' }}>
-          <label style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-            Фамилия <input value={lastName} onChange={(e) => setLastName(e.target.value)} style={{ fontSize: 16, minHeight: 44, padding: '10px 12px' }} />
+        <div className="gg-grid-240">
+          <label className="gg-field gg-field--bare">
+            Фамилия <input value={lastName} onChange={(e) => setLastName(e.target.value)} />
           </label>
-          <label style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-            Имя + Отчество <input value={firstName} onChange={(e) => setFirstName(e.target.value)} style={{ fontSize: 16, minHeight: 44, padding: '10px 12px' }} />
+          <label className="gg-field gg-field--bare">
+            Имя + Отчество <input value={firstName} onChange={(e) => setFirstName(e.target.value)} />
           </label>
-          <label style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-            Полное ФИО <input value={fullName} onChange={(e) => setFullName(e.target.value)} style={{ fontSize: 16, minHeight: 44, padding: '10px 12px' }} />
+          <label className="gg-field gg-field--bare">
+            Полное ФИО <input value={fullName} onChange={(e) => setFullName(e.target.value)} />
           </label>
-          <label style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+          <label className="gg-field gg-field--bare">
             Роль
-            <select value={role} onChange={(e) => setRole(e.target.value as 'админ' | 'учитель')} style={{ fontSize: 16, minHeight: 44, padding: '10px 12px' }}>
+            <select value={role} onChange={(e) => setRole(e.target.value as 'админ' | 'учитель')}>
               <option value="учитель">Учитель</option>
               <option value="админ">Админ</option>
             </select>
           </label>
-          <label style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <input type="checkbox" checked={isVospitatel} onChange={(e) => setIsVospitatel(e.target.checked)} style={{ width: 20, height: 20 }} /> Воспитатель
+          <label className="gg-check-label">
+            <input type="checkbox" checked={isVospitatel} onChange={(e) => setIsVospitatel(e.target.checked)} className="gg-checkbox" /> Воспитатель
           </label>
           {editingId === null && (
-            <label style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+            <label className="gg-field gg-field--bare">
               Пароль (мин. 8)
-              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} autoComplete="new-password" style={{ fontSize: 16, minHeight: 44, padding: '10px 12px' }} />
+              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} autoComplete="new-password" />
             </label>
           )}
         </div>
 
-        <div style={{ marginTop: 12 }}>
-          <h4 style={{ marginBottom: 8 }}>Классы</h4>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+        <div className="gg-mt-12">
+          <h4 className="gg-mb-8">Классы</h4>
+          <div className="gg-actions">
             {classes.map((c) => (
-              <label key={c.id} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 12px', border: '1px solid var(--separator)', borderRadius: 8, background: 'var(--card-bg)' }}>
-                <input type="checkbox" checked={classIds.has(c.id)} onChange={() => toggle(classIds, setClassIds, c.id)} style={{ width: 20, height: 20 }} /> {c.name}
+              <label key={c.id} className="gg-check-row">
+                <input type="checkbox" checked={classIds.has(c.id)} onChange={() => toggle(classIds, setClassIds, c.id)} className="gg-checkbox" /> {c.name}
               </label>
             ))}
           </div>
         </div>
-        <div style={{ marginTop: 12 }}>
-          <h4 style={{ marginBottom: 8 }}>Предметы</h4>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+        <div className="gg-mt-12">
+          <h4 className="gg-mb-8">Предметы</h4>
+          <div className="gg-actions">
             {subjects.map((s) => (
-              <label key={s.id} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 12px', border: '1px solid var(--separator)', borderRadius: 8, background: 'var(--card-bg)' }}>
-                <input type="checkbox" checked={subjectIds.has(s.id)} onChange={() => toggle(subjectIds, setSubjectIds, s.id)} style={{ width: 20, height: 20 }} /> {s.name}
+              <label key={s.id} className="gg-check-row">
+                <input type="checkbox" checked={subjectIds.has(s.id)} onChange={() => toggle(subjectIds, setSubjectIds, s.id)} className="gg-checkbox" /> {s.name}
               </label>
             ))}
           </div>
         </div>
 
-        <div style={{ marginTop: 16, display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-          <button onClick={save} disabled={saving} style={{ padding: '14px 20px', fontSize: 16, minHeight: 48, flex: 1 }}>
+        <div className="gg-actions gg-actions--mt">
+          <button onClick={save} disabled={saving} className="gg-flex-1">
             {saving ? 'Сохранение…' : editingId ? 'Сохранить' : 'Создать учителя'}
           </button>
-          {editingId && <button onClick={cancel} style={{ padding: '14px 20px', fontSize: 16, minHeight: 48, background: 'var(--card-bg)', border: '1px solid var(--separator)' }}>Отмена</button>}
+          {editingId && <button onClick={cancel}>Отмена</button>}
         </div>
       </fieldset>
 
@@ -182,7 +182,7 @@ export function AdminTeachers() {
       {teachers.length === 0 ? <p className="gg-empty">Учителей нет</p> : (
         <div className="gg-table-wrap">
           <table className="gg-table">
-            <thead><tr><th>ФИО</th><th>Роль</th><th>Воспит.</th><th>Классов</th><th>Предметов</th><th style={{ width: 200 }}>Действия</th></tr></thead>
+            <thead><tr><th>ФИО</th><th>Роль</th><th>Воспит.</th><th>Классов</th><th>Предметов</th><th className="gg-col-200">Действия</th></tr></thead>
             <tbody>
               {teachers.map((t) => (
                 <tr key={t.id}>
@@ -191,10 +191,10 @@ export function AdminTeachers() {
                   <td>{t.isVospitatel ? 'Да' : 'Нет'}</td>
                   <td>{t.classIds.length}</td>
                   <td>{t.subjectIds.length}</td>
-                  <td style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-                    <button onClick={() => edit(t)} style={{ padding: '8px 12px', minHeight: 44, fontSize: 16 }}>Редактировать</button>
+                  <td className="gg-actions">
+                    <button onClick={() => edit(t)}>Редактировать</button>
                     {t.id !== (teachers.find(x => x.role === 'админ')?.id ?? -1) && (
-                      <button onClick={() => remove(t.id)} className="gg-btn-danger" style={{ padding: '8px 12px', minHeight: 44, fontSize: 16 }}>Удалить</button>
+                      <button onClick={() => remove(t.id)} className="gg-btn-danger">Удалить</button>
                     )}
                   </td>
                 </tr>

@@ -85,15 +85,15 @@ export function AdminPasswords() {
       <h2>Смена паролей</h2>
       {err && <p className="gg-error">{err}</p>}
       {ok && <p className="gg-ok">{ok}</p>}
-      <label style={{ display: 'flex', flexDirection: 'column', gap: 4, marginBottom: 12, width: '100%' }}>
+      <label className="gg-field gg-field--full">
         Учитель
-        <select value={selectedId ?? ''} onChange={(e) => setSelectedId(Number(e.target.value))} style={{ fontSize: 16, minHeight: 44, padding: '10px 12px' }}>
+        <select value={selectedId ?? ''} onChange={(e) => setSelectedId(Number(e.target.value))}>
           {teachers.map((t) => (
             <option key={t.id} value={t.id}>{t.fullName} ({t.role})</option>
           ))}
         </select>
       </label>
-      <label style={{ display: 'flex', flexDirection: 'column', gap: 4, marginBottom: 12 }}>
+      <label className="gg-field">
         Новый пароль (мин. 8 символов):
         <input
           type="password"
@@ -102,10 +102,9 @@ export function AdminPasswords() {
           maxLength={200}
           disabled={saving}
           autoComplete="new-password"
-          style={{ fontSize: 16, minHeight: 44, padding: '12px 14px' }}
         />
       </label>
-      <button onClick={save} disabled={saving || selectedId === null || newPassword.length < 8} style={{ marginTop: 8, padding: '14px 20px', fontSize: 16, minHeight: 48, width: '100%' }}>
+      <button onClick={save} disabled={saving || selectedId === null || newPassword.length < 8} className="gg-btn-block">
         {saving ? 'Сохранение…' : 'Сменить пароль'}
       </button>
     </div>

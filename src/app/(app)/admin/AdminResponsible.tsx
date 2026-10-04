@@ -103,22 +103,21 @@ export function AdminResponsible() {
       {items.length === 0 ? <p className="gg-empty">Классов нет</p> : (
         <div className="gg-table-wrap">
           <table className="gg-table">
-            <thead><tr><th>Класс</th><th>Ответственный</th><th style={{ width: 200 }}>Действия</th></tr></thead>
+            <thead><tr><th>Класс</th><th>Ответственный</th><th className="gg-col-200">Действия</th></tr></thead>
             <tbody>
               {items.map((item) => (
                 <tr key={item.classId}>
                   <td>{item.className}</td>
-                  <td>{item.teacherFullName ?? <span style={{ color: 'var(--text-secondary)' }}>— не назначен —</span>}</td>
-                  <td style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                  <td>{item.teacherFullName ?? <span className="gg-muted">— не назначен —</span>}</td>
+                  <td className="gg-actions">
                     <button
                       onClick={() => edit(item.classId, item.teacherId)}
                       disabled={saving && editingClassId === item.classId}
-                      style={{ padding: '8px 12px', minHeight: 44, fontSize: 16 }}
                     >
                       {editingClassId === item.classId ? 'Сохранить…' : item.teacherId ? 'Изменить' : 'Назначить'}
                     </button>
                     {item.teacherId && editingClassId !== item.classId && (
-                      <button onClick={() => remove(item.classId)} className="gg-btn-danger" style={{ padding: '8px 12px', minHeight: 44, fontSize: 16 }}>Снять</button>
+                      <button onClick={() => remove(item.classId)} className="gg-btn-danger">Снять</button>
                     )}
                   </td>
                 </tr>
@@ -129,15 +128,14 @@ export function AdminResponsible() {
       )}
 
       {editingClassId !== null && (
-        <div style={{ marginTop: 16, padding: 16, border: '1px solid var(--separator)', borderRadius: 12, background: 'var(--card-bg)' }}>
+        <div className="gg-panel gg-panel--mt">
           <h4>Назначение ответственного для класса: {classes.find(c => c.id === editingClassId)?.name}</h4>
-          <div style={{ marginTop: 12 }}>
-            <label style={{ display: 'flex', flexDirection: 'column', gap: 8, maxWidth: 400 }}>
+          <div className="gg-mt-12">
+            <label className="gg-form">
               Учитель
               <select
                 value={selectedTeacherId ?? ''}
                 onChange={(e) => setSelectedTeacherId(Number(e.target.value) || null)}
-                style={{ fontSize: 16, minHeight: 44, padding: '10px 12px' }}
               >
                 <option value="">— снять ответственного —</option>
                 {teachers.map((t) => (
@@ -146,11 +144,11 @@ export function AdminResponsible() {
               </select>
             </label>
           </div>
-          <div style={{ marginTop: 16, display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-            <button onClick={save} disabled={saving} style={{ padding: '14px 20px', fontSize: 16, minHeight: 48 }}>
+          <div className="gg-actions gg-actions--mt">
+            <button onClick={save} disabled={saving}>
               {saving ? 'Сохранение…' : 'Сохранить'}
             </button>
-            <button onClick={cancel} style={{ padding: '14px 20px', fontSize: 16, minHeight: 48, background: 'var(--card-bg)', border: '1px solid var(--separator)' }}>Отмена</button>
+            <button onClick={cancel}>Отмена</button>
           </div>
         </div>
       )}

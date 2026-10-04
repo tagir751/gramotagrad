@@ -73,35 +73,35 @@ export function ReportsPage() {
     <div>
       <h1>Отчёты</h1>
 
-      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 16 }}>
-        <label style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+      <div className="gg-filterbar">
+        <label className="gg-field gg-field--bare">
           Тип
-          <select value={type} onChange={(e) => setType(e.target.value as 'school'|'teacher'|'student')} style={{ fontSize: 16, minHeight: 44, padding: '10px 12px' }}>
+          <select value={type} onChange={(e) => setType(e.target.value as 'school'|'teacher'|'student')}>
             <option value="school">Школа</option>
             <option value="teacher">Учитель</option>
             <option value="student">Ученик</option>
           </select>
         </label>
-        <label style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+        <label className="gg-field gg-field--bare">
           Класс
-          <select value={classId} onChange={(e) => setParam('classId', e.target.value)} style={{ fontSize: 16, minHeight: 44, padding: '10px 12px' }}>
+          <select value={classId} onChange={(e) => setParam('classId', e.target.value)}>
             <option value="">Все</option>
             {/* classes loaded from context - simplified */}
           </select>
         </label>
-        <label style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-          Дата от <input type="date" value={dateFrom} onChange={(e) => setDateFrom(e.target.value)} style={{ fontSize: 16, minHeight: 44, padding: '10px 12px' }} />
+        <label className="gg-field gg-field--bare">
+          Дата от <input type="date" value={dateFrom} onChange={(e) => setDateFrom(e.target.value)} />
         </label>
-        <label style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-          Дата до <input type="date" value={dateTo} onChange={(e) => setDateTo(e.target.value)} style={{ fontSize: 16, minHeight: 44, padding: '10px 12px' }} />
+        <label className="gg-field gg-field--bare">
+          Дата до <input type="date" value={dateTo} onChange={(e) => setDateTo(e.target.value)} />
         </label>
-        <button onClick={() => fetchData().then(setData).catch((e: Error) => setErr(e.message))} style={{ padding: '10px 16px', minHeight: 44, fontSize: 16, alignSelf: 'flex-end' }}>Обновить</button>
+        <button className="gg-btn-secondary gg-btn-sm" onClick={() => fetchData().then(setData).catch((e: Error) => setErr(e.message))}>Обновить</button>
       </div>
 
       {err && <p className="gg-error">{err}</p>}
 
       {type === 'school' && data && (
-        <section style={{ marginBottom: 24 }}>
+        <section className="gg-panel">
           <h2>Сводка по школе</h2>
           <div className="gg-stat-grid">
             <div className="gg-stat gg-stat--today">
@@ -120,8 +120,8 @@ export function ReportsPage() {
               <span className="gg-stat__value">{data.averageGrade ? Number(data.averageGrade).toFixed(2) : '—'}</span>
             </div>
           </div>
-          <h3 style={{ marginTop: 16 }}>Распределение оценок</h3>
-          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+          <h3>Распределение оценок</h3>
+          <div className="gg-actions">
             {dist.map((d) => (
               <span key={d.value} className={`gg-badge val-${d.value === 'Н' ? 'n' : d.value || 'empty'}`}>{d.value || '—'} · {d.count}</span>
             ))}

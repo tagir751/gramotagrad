@@ -24,7 +24,7 @@ async function VospitanieGate() {
 
 export default function Vospitanie() {
   return (
-    <Suspense fallback={<div style={{ padding: 16 }}>Загрузка…</div>}>
+    <Suspense fallback={<div className="gg-pad">Загрузка…</div>}>
       <VospitanieGate />
     </Suspense>
   )

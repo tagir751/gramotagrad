@@ -58,7 +58,7 @@
         <div class="gg-greeting-hello">Журнал · Иванова Анна Петровна</div>
       </div>
 
-      <div class="gg-card" style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px">
+      <div class="gg-card gg-filterbar">
         <label>Класс
           <select><option>1А</option><option>2Б</option></select>
         </label>
@@ -83,7 +83,7 @@
         <h2><span>👨‍🎓</span> Ученики</h2>
         <span class="gg-count">6</span>
       </div>
-      <p style="color:var(--text-secondary); font-size:13px">Урок #34</p>
+      <p class="gg-hint">Урок #34</p>
 
       <div class="gg-table-wrap gg-hide-mobile">
         <table class="gg-table">
@@ -125,44 +125,44 @@
 
       <div class="gg-logs-cards gg-show-mobile">
         <div class="gg-log-card">
-          <div class="gg-student-row" style="margin-bottom:8px">
+          <div class="gg-student-row gg-mb-8">
             <span class="gg-avatar">АВ</span><span class="gg-student-name">Антонова Вера</span>
             <select class="gg-grade val-5"><option>5</option></select>
           </div>
-          <label class="gg-field" style="margin-bottom:0"><input class="gg-input" value="Отлично работала у доски" placeholder="Комментарий"></label>
+          <label class="gg-field gg-field--bare"><input class="gg-input" value="Отлично работала у доски" placeholder="Комментарий"></label>
         </div>
         <div class="gg-log-card">
-          <div class="gg-student-row" style="margin-bottom:8px">
+          <div class="gg-student-row gg-mb-8">
             <span class="gg-avatar">БИ</span><span class="gg-student-name">Белов Игорь</span>
             <select class="gg-grade val-4"><option>4</option></select>
           </div>
-          <label class="gg-field" style="margin-bottom:0"><input class="gg-input" value="" placeholder="Комментарий"></label>
+          <label class="gg-field gg-field--bare"><input class="gg-input" value="" placeholder="Комментарий"></label>
         </div>
         <div class="gg-log-card">
-          <div class="gg-student-row" style="margin-bottom:8px">
+          <div class="gg-student-row gg-mb-8">
             <span class="gg-avatar">ГМ</span><span class="gg-student-name">Громов Миша</span>
             <select class="gg-grade val-3"><option>3</option></select>
           </div>
-          <label class="gg-field" style="margin-bottom:0"><input class="gg-input" value="Путает разряды, повторить дома" placeholder="Комментарий"></label>
+          <label class="gg-field gg-field--bare"><input class="gg-input" value="Путает разряды, повторить дома" placeholder="Комментарий"></label>
         </div>
         <div class="gg-log-card">
-          <div class="gg-student-row" style="margin-bottom:8px">
+          <div class="gg-student-row gg-mb-8">
             <span class="gg-avatar">ЕК</span><span class="gg-student-name">Егоров Костя</span>
             <select class="gg-grade val-n"><option>Н</option></select>
           </div>
-          <label class="gg-field" style="margin-bottom:0"><input class="gg-input" value="Болеет" placeholder="Комментарий"></label>
+          <label class="gg-field gg-field--bare"><input class="gg-input" value="Болеет" placeholder="Комментарий"></label>
         </div>
       </div>
 
-      <button class="gg-btn gg-btn-success" style="margin-top:12px"><span>✔ Сохранить урок</span></button>
+      <button class="gg-btn gg-btn-success gg-mt-12"><span>✔ Сохранить урок</span></button>
     </div>
 
     <!-- ------------------------- УЧЕНИКИ ------------------------- -->
     <div data-screen="students">
       <div class="gg-greeting"><div class="gg-greeting-hello">Ученики</div></div>
 
-      <div class="gg-card" style="margin-bottom:12px">
-        <label class="gg-field" style="margin-bottom:0">
+      <div class="gg-card gg-spacer">
+        <label class="gg-field gg-field--bare">
           Класс
           <select><option>Все доступные</option><option>1А</option><option>2Б</option></select>
         </label>
@@ -173,41 +173,41 @@
         <span class="gg-count">4</span>
       </div>
 
-      <div class="gg-logs-cards" style="display:flex">
+      <div class="gg-logs-cards">
         <div class="gg-log-card">
           <div class="gg-student-row">
             <span class="gg-avatar">АВ</span>
             <span class="gg-student-name">Антонова Вера
-              <div style="font-size:12px; color:var(--text-secondary); font-weight:500">1А · ★ есть рекомендация</div>
+              <div class="gg-student-meta">1А · ★ есть рекомендация</div>
             </span>
-            <button class="gg-btn-secondary" style="padding:8px 14px; min-height:44px; width:auto">Скрыть</button>
+            <button class="gg-btn-secondary gg-btn-sm">Скрыть</button>
           </div>
         </div>
         <div class="gg-log-card">
           <div class="gg-student-row">
             <span class="gg-avatar">БИ</span>
             <span class="gg-student-name">Белов Игорь
-              <div style="font-size:12px; color:var(--text-secondary); font-weight:500">1А</div>
+              <div class="gg-student-meta">1А</div>
             </span>
-            <button class="gg-btn-secondary" style="padding:8px 14px; min-height:44px; width:auto">Скрыть</button>
+            <button class="gg-btn-secondary gg-btn-sm">Скрыть</button>
           </div>
         </div>
         <div class="gg-log-card">
           <div class="gg-student-row">
             <span class="gg-avatar">ГМ</span>
             <span class="gg-student-name">Громов Миша
-              <div style="font-size:12px; color:var(--text-secondary); font-weight:500">1А · ★ есть рекомендация</div>
+              <div class="gg-student-meta">1А · ★ есть рекомендация</div>
             </span>
-            <button class="gg-btn-secondary" style="padding:8px 14px; min-height:44px; width:auto">Скрыть</button>
+            <button class="gg-btn-secondary gg-btn-sm">Скрыть</button>
           </div>
         </div>
-        <div class="gg-log-card" style="opacity:.6">
+        <div class="gg-log-card gg-inactive">
           <div class="gg-student-row">
             <span class="gg-avatar">ДО</span>
             <span class="gg-student-name">Дроздова Оля
-              <div style="font-size:12px; color:var(--text-secondary); font-weight:500">1А · скрыт</div>
+              <div class="gg-student-meta">1А · скрыт</div>
             </span>
-            <button class="gg-btn-secondary" style="padding:8px 14px; min-height:44px; width:auto">Вернуть</button>
+            <button class="gg-btn-secondary gg-btn-sm">Вернуть</button>
           </div>
         </div>
       </div>
@@ -217,23 +217,23 @@
     <div data-screen="reports">
       <h1>Отчёты</h1>
 
-      <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px">
-        <label style="display:flex; flex-direction:column; gap:4px">Тип
-          <select style="font-size:16px; min-height:44px; padding:10px 12px"><option>Школа</option><option>Учитель</option><option>Ученик</option></select>
+      <div class="gg-filterbar">
+        <label class="gg-field gg-field--bare">Тип
+          <select><option>Школа</option><option>Учитель</option><option>Ученик</option></select>
         </label>
-        <label style="display:flex; flex-direction:column; gap:4px">Класс
-          <select style="font-size:16px; min-height:44px; padding:10px 12px"><option>Все</option></select>
+        <label class="gg-field gg-field--bare">Класс
+          <select><option>Все</option></select>
         </label>
-        <label style="display:flex; flex-direction:column; gap:4px">Дата от
-          <input type="date" value="2026-09-01" style="font-size:16px; min-height:44px; padding:10px 12px">
+        <label class="gg-field gg-field--bare">Дата от
+          <input type="date" value="2026-09-01">
         </label>
-        <label style="display:flex; flex-direction:column; gap:4px">Дата до
-          <input type="date" value="2026-10-04" style="font-size:16px; min-height:44px; padding:10px 12px">
+        <label class="gg-field gg-field--bare">Дата до
+          <input type="date" value="2026-10-04">
         </label>
-        <button style="padding:10px 16px; min-height:44px; font-size:16px; align-self:flex-end">Обновить</button>
+        <button class="gg-btn-secondary gg-btn-sm">Обновить</button>
       </div>
 
-      <section style="margin-bottom:24px">
+      <section class="gg-panel">
         <h2>Сводка по школе</h2>
         <div class="gg-stat-grid">
           <div class="gg-stat gg-stat--today">
@@ -253,8 +253,8 @@
           </div>
         </div>
 
-        <h3 style="margin-top:16px">Распределение оценок</h3>
-        <div style="display:flex; gap:8px; flex-wrap:wrap">
+        <h3 class="gg-actions--mt">Распределение оценок</h3>
+        <div class="gg-actions">
           <span class="gg-badge val-5">5 · 412</span>
           <span class="gg-badge val-4">4 · 288</span>
           <span class="gg-badge val-3">3 · 157</span>
@@ -284,11 +284,11 @@
     <div data-screen="vospitanie">
       <h1>Воспитательная работа</h1>
 
-      <label style="margin-bottom:16px">Класс
-        <select style="font-size:16px; min-height:44px; padding:10px 12px"><option>Все доступные</option><option>1А</option></select>
+      <label class="gg-spacer">Класс
+        <select><option>Все доступные</option><option>1А</option></select>
       </label>
 
-      <div style="display:grid; gap:24px; margin-top:16px">
+      <div class="gg-stack">
         <section>
           <h2>Классы и ответственные</h2>
           <div class="gg-table-wrap">
@@ -296,7 +296,7 @@
               <thead><tr><th>Класс</th><th>Ответственный воспитатель</th></tr></thead>
               <tbody>
                 <tr><td>1А</td><td>Сидорова Ольга Ивановна</td></tr>
-                <tr><td>2Б</td><td><span style="color:var(--text-secondary)">— не назначен —</span></td></tr>
+                <tr><td>2Б</td><td><span class="gg-muted">— не назначен —</span></td></tr>
               </tbody>
             </table>
           </div>
@@ -304,10 +304,10 @@
 
         <section>
           <h2>Ученики</h2>
-          <ul style="display:grid; gap:8px; list-style:none; padding:0">
-            <li class="gg-log-card" style="padding:12px"><strong>Антонова Вера</strong> <span style="color:var(--text-secondary)">(1А)</span></li>
-            <li class="gg-log-card" style="padding:12px"><strong>Белов Игорь</strong> <span style="color:var(--text-secondary)">(1А)</span></li>
-            <li class="gg-log-card" style="padding:12px"><strong>Громов Миша</strong> <span style="color:var(--text-secondary)">(1А)</span></li>
+          <ul class="gg-list">
+            <li class="gg-log-card gg-log-card--compact"><strong>Антонова Вера</strong> <span class="gg-muted">(1А)</span></li>
+            <li class="gg-log-card gg-log-card--compact"><strong>Белов Игорь</strong> <span class="gg-muted">(1А)</span></li>
+            <li class="gg-log-card gg-log-card--compact"><strong>Громов Миша</strong> <span class="gg-muted">(1А)</span></li>
           </ul>
         </section>
 
@@ -315,20 +315,20 @@
           <h2>Актуальные рекомендации</h2>
           <div class="gg-logs-cards">
             <div class="gg-log-card">
-              <div style="display:flex; justify-content:space-between; margin-bottom:4px">
+              <div class="gg-row-between">
                 <strong>Громов Миша</strong>
-                <span style="color:var(--text-secondary); font-size:14px">02.10.2026, 14:20</span>
+                <span class="gg-meta">02.10.2026, 14:20</span>
               </div>
-              <div style="white-space:pre-wrap; margin-bottom:4px">Нужна дополнительная работа по счёту в пределах 20. Рекомендую занятия с родителями 15 минут в день.</div>
-              <div style="font-size:14px; color:var(--text-secondary)">Автор: Сидорова Ольга Ивановна</div>
+              <div class="gg-prewrap gg-row-tight">Нужна дополнительная работа по счёту в пределах 20. Рекомендую занятия с родителями 15 минут в день.</div>
+              <div class="gg-meta">Автор: Сидорова Ольга Ивановна</div>
             </div>
             <div class="gg-log-card">
-              <div style="display:flex; justify-content:space-between; margin-bottom:4px">
+              <div class="gg-row-between">
                 <strong>Антонова Вера</strong>
-                <span style="color:var(--text-secondary); font-size:14px">28.09.2026, 09:05</span>
+                <span class="gg-meta">28.09.2026, 09:05</span>
               </div>
-              <div style="white-space:pre-wrap; margin-bottom:4px">Проявляет лидерские качества, стоит привлечь к подготовке школьного концерта.</div>
-              <div style="font-size:14px; color:var(--text-secondary)">Автор: Иванова Анна Петровна</div>
+              <div class="gg-prewrap gg-row-tight">Проявляет лидерские качества, стоит привлечь к подготовке школьного концерта.</div>
+              <div class="gg-meta">Автор: Иванова Анна Петровна</div>
             </div>
           </div>
         </section>
@@ -337,9 +337,9 @@
           <h2>Комментарии учителей</h2>
           <div class="gg-logs-cards">
             <div class="gg-log-card">
-              <div style="display:flex; justify-content:space-between; margin-bottom:4px">
+              <div class="gg-row-between">
                 <strong>Громов Миша</strong>
-                <span style="color:var(--text-secondary); font-size:14px">Математика · 2026-10-04</span>
+                <span class="gg-meta">Математика · 2026-10-04</span>
               </div>
               <div>Путает разряды, повторить дома</div>
             </div>
@@ -352,44 +352,44 @@
     <div data-screen="admin">
       <h1>Администрирование</h1>
 
-      <div style="display:flex; gap:4px; margin-bottom:16px; overflow-x:auto; flex-wrap:wrap">
-        <button style="padding:10px 16px; min-height:44px; font-size:15px; border-radius:12px; border:0; background:linear-gradient(135deg,#3b82f6,#8b5cf6); color:#fff; font-weight:600">Классы</button>
-        <button style="padding:10px 16px; min-height:44px; font-size:15px; border-radius:12px; border:0; background:transparent">Предметы</button>
-        <button style="padding:10px 16px; min-height:44px; font-size:15px; border-radius:12px; border:0; background:transparent">Педагоги</button>
-        <button style="padding:10px 16px; min-height:44px; font-size:15px; border-radius:12px; border:0; background:transparent">Назначения</button>
-        <button style="padding:10px 16px; min-height:44px; font-size:15px; border-radius:12px; border:0; background:transparent">Пароли</button>
-        <button style="padding:10px 16px; min-height:44px; font-size:15px; border-radius:12px; border:0; background:transparent">Импорт/Экспорт</button>
+      <div>
+        <button class="gg-tab is-active">Классы</button>
+        <button class="gg-tab">Предметы</button>
+        <button class="gg-tab">Педагоги</button>
+        <button class="gg-tab">Назначения</button>
+        <button class="gg-tab">Пароли</button>
+        <button class="gg-tab">Импорт/Экспорт</button>
       </div>
 
-      <label class="gg-field" style="max-width:300px">
+      <label class="gg-field" class="gg-narrow">
         Название класса
         <input class="gg-input" placeholder="Например, 3В">
       </label>
-      <button class="gg-btn" style="margin-bottom:16px; max-width:300px">Добавить класс</button>
+      <button class="gg-btn" class="gg-narrow gg-spacer">Добавить класс</button>
 
       <div class="gg-table-wrap">
         <table class="gg-table">
-          <thead><tr><th>Класс</th><th>Учеников</th><th>Уроков</th><th style="width:180px">Действия</th></tr></thead>
+          <thead><tr><th>Класс</th><th>Учеников</th><th>Уроков</th><th class="gg-col-180">Действия</th></tr></thead>
           <tbody>
             <tr>
               <td>1А</td><td>6</td><td>74</td>
-              <td><div style="display:flex; gap:8px; flex-wrap:wrap">
-                <button class="gg-btn-secondary" style="padding:8px 12px; min-height:44px; font-size:16px">Изменить</button>
-                <button class="gg-btn-danger" style="padding:8px 12px; min-height:44px; font-size:16px">Удалить</button>
+              <td><div class="gg-actions">
+                <button class="gg-btn-secondary">Изменить</button>
+                <button class="gg-btn-danger">Удалить</button>
               </div></td>
             </tr>
             <tr>
               <td>2Б</td><td>5</td><td>54</td>
-              <td><div style="display:flex; gap:8px; flex-wrap:wrap">
-                <button class="gg-btn-secondary" style="padding:8px 12px; min-height:44px; font-size:16px">Изменить</button>
-                <button class="gg-btn-danger" style="padding:8px 12px; min-height:44px; font-size:16px">Удалить</button>
+              <td><div class="gg-actions">
+                <button class="gg-btn-secondary">Изменить</button>
+                <button class="gg-btn-danger">Удалить</button>
               </div></td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      <p class="gg-error" style="margin-top:12px">В классе есть ученики или уроки — удаление запрещено</p>
+      <p class="gg-error gg-mt-12">В классе есть ученики или уроки — удаление запрещено</p>
     </div>
 
   </main>

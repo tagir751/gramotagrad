@@ -145,7 +145,7 @@ export function JournalPage() {
         <div className="gg-greeting-date">{new Date(date + 'T00:00:00').toLocaleDateString('ru-RU', { weekday: 'long', day: 'numeric', month: 'long' })}</div>
         <div className="gg-greeting-hello">Журнал · {session?.fullName ?? ''}</div>
       </div>
-      <div className="gg-card" style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 12 }}>
+      <div className="gg-card gg-filterbar">
         <label>
           Класс{' '}
           <select value={classId} onChange={(e) => setFilter('classId', e.target.value)}>
@@ -191,7 +191,7 @@ export function JournalPage() {
             <h2><span>👨‍🎓</span> Ученики</h2>
             <span className="gg-count">{rows.length}</span>
           </div>
-          <p style={{ color: 'var(--text-secondary)', fontSize: 13 }}>{lessonId ? `Урок #${lessonId}` : 'Новый урок (создастся при сохранении)'}</p>
+          <p className="gg-hint">{lessonId ? `Урок #${lessonId}` : 'Новый урок (создастся при сохранении)'}</p>
 
           {/* Desktop table with horizontal scroll */}
           <div className="gg-table-wrap gg-hide-mobile">
@@ -234,7 +234,7 @@ export function JournalPage() {
           <div className="gg-logs-cards gg-show-mobile">
             {rows.map((r) => (
               <div key={r.studentId} className="gg-log-card">
-                <div className="gg-student-row" style={{ marginBottom: 8 }}>
+                <div className="gg-student-row gg-student-row--gap">
                   <span className="gg-avatar">{initials(r.fullName)}</span>
                   <span className="gg-student-name">{r.fullName}</span>
                   <select className={gradeClass(r.value)} value={r.value} onChange={(e) => patchRow(r.studentId, { value: e.target.value })}>
@@ -243,7 +243,7 @@ export function JournalPage() {
                     ))}
                   </select>
                 </div>
-                <label className="gg-field" style={{ marginBottom: 0 }}>
+                <label className="gg-field gg-field--bare">
                   <input
                     className="gg-input"
                     value={r.comment}
@@ -256,7 +256,7 @@ export function JournalPage() {
             ))}
           </div>
           {rows.length === 0 && !err && <p className="gg-empty">В классе нет учеников.</p>}
-          <button className="gg-btn gg-btn-success" onClick={save} disabled={saving} style={{ marginTop: 12 }}>
+          <button className="gg-btn gg-btn-success gg-btn--spaced" onClick={save} disabled={saving}>
             <span>{saving ? 'Сохранение…' : '✔ Сохранить урок'}</span>
           </button>
         </>
