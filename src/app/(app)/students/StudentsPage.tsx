@@ -100,7 +100,7 @@ export function StudentsPage() {
             <h2><span>👨‍🎓</span> Список</h2>
             <span className="gg-count">{list.length}</span>
           </div>
-          <div className="gg-logs-cards" style={{ display: 'flex' }}>
+          <div className="gg-logs-cards">
             {list.map((s) => (
               <div key={s.id} className="gg-log-card" style={{ opacity: s.active ? 1 : 0.6 }}>
                 <div className="gg-student-row">

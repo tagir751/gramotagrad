@@ -56,13 +56,16 @@ export function JournalPage() {
   const [lessonId, setLessonId] = useState<number | null>(null)
   const [loading, setLoading] = useState(false)
   const [saving, setSaving] = useState(false)
+  const [refsLoaded, setRefsLoaded] = useState(false)
   const [err, setErr] = useState('')
   const [saved, setSaved] = useState('')
 
   // Справочники один раз: только свои классы/предметы (API фильтрует по правам).
   useEffect(() => {
-    fetch('/api/classes').then((r) => r.json()).then(setClasses).catch(() => {})
-    fetch('/api/subjects').then((r) => r.json()).then(setSubjects).catch(() => {})
+    Promise.all([
+      fetch('/api/classes').then((r) => r.json()).then(setClasses).catch(() => {}),
+      fetch('/api/subjects').then((r) => r.json()).then(setSubjects).catch(() => {}),
+    ]).finally(() => setRefsLoaded(true))
   }, [])
 
   // Ученики + урок при смене фильтров.
@@ -170,7 +173,15 @@ export function JournalPage() {
       </div>
 
       {!classId || !subjectId ? (
-        <p>Выберите класс и предмет — фильтр живёт в URL.</p>
+        refsLoaded && classes.length === 0 ? (
+          <p className="gg-empty">
+            {session?.role !== 'админ' && session?.isVospitatel
+              ? 'Журнал ведут учителя-предметники. Ваши классы — в разделе «Воспитание».'
+              : 'Нет назначенных классов или предметов. Обратитесь к админу.'}
+          </p>
+        ) : (
+          <p>Выберите класс и предмет — фильтр живёт в URL.</p>
+        )
       ) : classes.length === 0 || subjects.length === 0 ? (
         <p>Нет назначенных классов или предметов. Обратитесь к админу.</p>
       ) : loading ? (

@@ -18,6 +18,7 @@ interface Rec { id: number; text: string; isCurrent: boolean; createdAt: string;
 export function AdminRecommendations() {
   const [recs, setRecs] = useState<Rec[]>([])
   const [students, setStudents] = useState<Student[]>([])
+  const [classes, setClasses] = useState<{ id: number; name: string }[]>([])
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [err, setErr] = useState('')
@@ -41,6 +42,10 @@ export function AdminRecommendations() {
     if (!res.ok) throw new Error('Ошибка загрузки учеников')
     return res.json()
   }
+
+  useEffect(() => {
+    fetch('/api/classes').then((r) => r.json()).then(setClasses).catch(() => {})
+  }, [])
 
   useEffect(() => {
     const load = async () => {
@@ -83,7 +88,7 @@ export function AdminRecommendations() {
           Класс для фильтра учеников
           <select value={classId} onChange={(e) => setClassId(e.target.value)} style={{ fontSize: 16, minHeight: 44, padding: '10px 12px' }}>
             <option value="">Все классы</option>
-            {recs.map((r) => r.student.class && <option key={r.student.class.name} value={r.student.class.name}>{r.student.class.name}</option>)}
+            {classes.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
           </select>
         </label>
       </div>

@@ -9,7 +9,7 @@
   color-scheme: light;
 
   /* --- Поверхности (bg совпадает с themeColor из layout.tsx) --- */
-  --gg-bg: #f0f2f5;
+  --gg-bg: #f8f6f0;
   --gg-surface: #ffffff;
   --gg-surface-2: #f2f3f7;   /* hover / вторичные заливки */
   --gg-surface-3: #e9ebf1;
@@ -62,8 +62,8 @@
      ============================================================ */
   /* SHIM Ink: var()-ссылки внутри :root роняют Turbopack-парсер,
      поэтому здесь литералы 1:1 из токенов выше. При смене токенов — обновить. */
-  --bg: #f0f2f5;
-  --paper: #f0f2f5;
+  --bg: #f8f6f0;
+  --paper: #f8f6f0;
   --card-bg: #ffffff;
   --text: #1d1d1f;
   --text-strong: #1d1d1f;
@@ -103,7 +103,7 @@
   --brand-600: #0071e3;
   --brand-500: #0071e3;
   --brand-100: rgba(0, 113, 227, 0.10);
-  --brand-50: #f0f2f5;
+  --brand-50: #f8f6f0;
   --accent-600: #c2410c;
   --accent-500: #c2410c;
   --accent-100: rgba(255, 159, 10, 0.18);
@@ -220,11 +220,12 @@ button:not([class]):disabled { opacity: .45; cursor: not-allowed; }
   }
 }
 
-/* ---------- Заголовки страниц/секций ---------- */
-.gg-main h1 { margin: 0 0 16px; font-size: 24px; font-weight: 800; letter-spacing: -0.02em; }
-.gg-main h2 { margin: 0 0 12px; font-size: 20px; font-weight: 700; letter-spacing: -0.01em; }
+/* ---------- Заголовки страниц/секций (фирменный синий) ---------- */
+.gg-main h1 { margin: 0 0 16px; font-size: 24px; font-weight: 800; letter-spacing: -0.02em; color: var(--gg-accent-strong); }
+.gg-main h2 { margin: 0 0 12px; font-size: 20px; font-weight: 700; letter-spacing: -0.01em; color: var(--gg-accent-strong); }
+.gg-main h3 { color: var(--gg-accent-strong); }
 .gg-section-header { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 22px 0 10px; }
-.gg-section-header h2 { margin: 0; font-size: 17px; }
+.gg-section-header h2 { margin: 0; font-size: 17px; color: var(--gg-accent-strong); }
 .gg-count {
   display: inline-flex; align-items: center; justify-content: center;
   min-width: 26px; height: 24px; padding: 0 9px;

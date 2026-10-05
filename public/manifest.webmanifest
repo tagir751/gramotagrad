@@ -3,7 +3,7 @@
   "short_name": "Грамотаград",
   "start_url": "/journal",
   "display": "standalone",
-  "background_color": "#f0f2f5",
+  "background_color": "#f8f6f0",
   "theme_color": "#3b82f6",
   "icons": [
     { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
