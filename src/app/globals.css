@@ -363,6 +363,23 @@ button:not([class]):disabled { opacity: .45; cursor: not-allowed; }
 .gg-input:focus-visible { outline: none; border-color: var(--gg-accent); box-shadow: 0 0 0 3px var(--gg-ring); }
 .gg-input:disabled { background: var(--gg-surface-2); color: var(--gg-text-3); cursor: not-allowed; }
 
+/* Выпадающие списки — тот же язык, что у .gg-input: рамка, радиус, стрелка.
+   .gg-grade (журнал) исключён — у него своя пилюля. */
+select:not(.gg-grade) {
+  -webkit-appearance: none; appearance: none;
+  padding: 10px 38px 10px 14px;
+  background-color: var(--gg-surface);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 4.5 6 8l3.5-3.5' fill='none' stroke='%23636366' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 14px center; background-size: 12px;
+  border: 1px solid var(--gg-border-strong);
+  border-radius: var(--gg-r-sm);
+  cursor: pointer;
+  transition: border-color var(--gg-t-fast) var(--gg-ease), box-shadow var(--gg-t-fast) var(--gg-ease);
+}
+select:not(.gg-grade):hover:not(:disabled) { border-color: rgba(60, 60, 67, 0.32); }
+select:not(.gg-grade):focus-visible { outline: none; border-color: var(--gg-accent); box-shadow: 0 0 0 3px var(--gg-ring); }
+select:not(.gg-grade):disabled { background-color: var(--gg-surface-2); color: var(--gg-text-3); cursor: not-allowed; }
+
 /* ---------- Состояния ---------- */
 .gg-error {
   margin: 8px 0; padding: 10px 14px;

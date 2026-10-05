@@ -47,7 +47,7 @@ export function VospitaniePage() {
       <h1>Воспитательная работа</h1>
 
       <label style={{ marginBottom: 16 }}>
-        Класс <select value={classId} onChange={(e) => setParam('classId', e.target.value)} style={{ fontSize: 16, minHeight: 44, padding: '10px 12px' }}>
+        Класс <select value={classId} onChange={(e) => setParam('classId', e.target.value)}>
           <option value="">Все доступные</option>
           {classes.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
         </select>

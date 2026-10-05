@@ -111,7 +111,7 @@ export function ReportsPage() {
       <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 16 }}>
         <label style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
           Тип
-          <select value={type} onChange={(e) => setType(e.target.value as 'school' | 'teacher' | 'student')} style={{ fontSize: 16, minHeight: 44, padding: '10px 12px' }}>
+          <select value={type} onChange={(e) => setType(e.target.value as 'school' | 'teacher' | 'student')}>
             <option value="school">Школа</option>
             <option value="teacher">Учитель</option>
             <option value="student">Ученик</option>
@@ -119,14 +119,14 @@ export function ReportsPage() {
         </label>
         <label style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
           Класс
-          <select value={classId} onChange={(e) => setParam('classId', e.target.value)} style={{ fontSize: 16, minHeight: 44, padding: '10px 12px' }}>
+          <select value={classId} onChange={(e) => setParam('classId', e.target.value)}>
             <option value="">Все</option>
             {classes.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
           </select>
         </label>
         <label style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
           Предмет
-          <select value={subjectId} onChange={(e) => setSubjectId(e.target.value)} style={{ fontSize: 16, minHeight: 44, padding: '10px 12px' }}>
+          <select value={subjectId} onChange={(e) => setSubjectId(e.target.value)}>
             <option value="">Все</option>
             {subjects.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
           </select>
@@ -134,7 +134,7 @@ export function ReportsPage() {
         {type === 'teacher' && (
           <label style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
             Учитель
-            <select value={teacherId} onChange={(e) => setTeacherId(e.target.value)} style={{ fontSize: 16, minHeight: 44, padding: '10px 12px' }}>
+            <select value={teacherId} onChange={(e) => setTeacherId(e.target.value)}>
               <option value="">— выберите —</option>
               {teachers.map((t) => <option key={t.id} value={t.id}>{t.fullName}</option>)}
             </select>

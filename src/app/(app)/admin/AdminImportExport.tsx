@@ -92,7 +92,7 @@ export function AdminImportExport() {
         <div style={{ display: 'grid', gap: 12, gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', marginBottom: 16 }}>
           <label style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
             Тип данных
-            <select value={exportType} onChange={(e) => setExportType(e.target.value as any)} style={{ fontSize: 16, minHeight: 44, padding: '10px 12px' }}>
+            <select value={exportType} onChange={(e) => setExportType(e.target.value as any)}>
               <option value="full">Всё (full)</option>
               <option value="teachers">Педагоги</option>
               <option value="classes">Классы</option>
@@ -106,7 +106,7 @@ export function AdminImportExport() {
           </label>
           <label style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
             Класс (опционально)
-            <select value={classId} onChange={(e) => setClassId(e.target.value)} style={{ fontSize: 16, minHeight: 44, padding: '10px 12px' }}>
+            <select value={classId} onChange={(e) => setClassId(e.target.value)}>
               <option value="">Все</option>
             </select>
           </label>

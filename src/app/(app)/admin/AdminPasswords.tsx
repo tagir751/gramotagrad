@@ -87,7 +87,7 @@ export function AdminPasswords() {
       {ok && <p className="gg-ok">{ok}</p>}
       <label style={{ display: 'flex', flexDirection: 'column', gap: 4, marginBottom: 12, width: '100%' }}>
         Учитель
-        <select value={selectedId ?? ''} onChange={(e) => setSelectedId(Number(e.target.value))} style={{ fontSize: 16, minHeight: 44, padding: '10px 12px' }}>
+        <select value={selectedId ?? ''} onChange={(e) => setSelectedId(Number(e.target.value))}>
           {teachers.map((t) => (
             <option key={t.id} value={t.id}>{t.fullName} ({t.role})</option>
           ))}

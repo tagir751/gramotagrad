@@ -133,7 +133,7 @@ export function AdminTeachers() {
           </label>
           <label style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
             Роль
-            <select value={role} onChange={(e) => setRole(e.target.value as 'админ' | 'учитель')} style={{ fontSize: 16, minHeight: 44, padding: '10px 12px' }}>
+            <select value={role} onChange={(e) => setRole(e.target.value as 'админ' | 'учитель')}>
               <option value="учитель">Учитель</option>
               <option value="админ">Админ</option>
             </select>

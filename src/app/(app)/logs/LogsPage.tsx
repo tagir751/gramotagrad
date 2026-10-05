@@ -99,8 +99,7 @@ export function LogsPage() {
       <div style={{ marginBottom: 12 }}>
         <label style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           Фильтр действия:
-          <select value={action} onChange={(e) => changeAction(e.target.value)}
-            style={{ padding: '10px 12px', fontSize: 16, minHeight: 44 }}>
+          <select value={action} onChange={(e) => changeAction(e.target.value)}>
             <option value="">Все</option>
             {actions.map((a) => (
               <option key={a} value={a}>{ACTION_LABELS[a] ?? a}</option>

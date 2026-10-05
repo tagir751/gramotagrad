@@ -86,7 +86,7 @@ export function AdminRecommendations() {
       <div style={{ marginBottom: 16 }}>
         <label style={{ display: 'flex', flexDirection: 'column', gap: 4, maxWidth: 300 }}>
           Класс для фильтра учеников
-          <select value={classId} onChange={(e) => setClassId(e.target.value)} style={{ fontSize: 16, minHeight: 44, padding: '10px 12px' }}>
+          <select value={classId} onChange={(e) => setClassId(e.target.value)}>
             <option value="">Все классы</option>
             {classes.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
           </select>
@@ -96,7 +96,7 @@ export function AdminRecommendations() {
       <div style={{ marginBottom: 16 }}>
         <label style={{ display: 'flex', flexDirection: 'column', gap: 4, maxWidth: 400 }}>
           Ученик
-          <select value={selectedStudentId ?? ''} onChange={(e) => setSelectedStudentId(Number(e.target.value) || null)} style={{ fontSize: 16, minHeight: 44, padding: '10px 12px' }}>
+          <select value={selectedStudentId ?? ''} onChange={(e) => setSelectedStudentId(Number(e.target.value) || null)}>
             <option value="">— выберите ученика —</option>
             {students.map((s) => <option key={s.id} value={s.id}>{s.fullName} ({s.class?.name})</option>)}
           </select>

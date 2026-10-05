@@ -137,7 +137,6 @@ export function AdminResponsible() {
               <select
                 value={selectedTeacherId ?? ''}
                 onChange={(e) => setSelectedTeacherId(Number(e.target.value) || null)}
-                style={{ fontSize: 16, minHeight: 44, padding: '10px 12px' }}
               >
                 <option value="">— снять ответственного —</option>
                 {teachers.map((t) => (
