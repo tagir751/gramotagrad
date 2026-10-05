@@ -173,6 +173,14 @@ button:not([class]):disabled { opacity: .45; cursor: not-allowed; }
 .gg-nav-link-active:hover { background: var(--gg-accent-soft); color: var(--gg-accent-strong); }
 
 .gg-role { margin-left: auto; font-size: 13px; color: var(--gg-text-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* Бургер: 44px-таргет (iOS HIG/Android), без нативной серой кнопки */
+.gg-burger {
+  display: none; align-items: center; justify-content: center;
+  min-width: 44px; min-height: 44px; padding: 0;
+  font: inherit; font-size: 22px; line-height: 1; color: var(--gg-text);
+  background: transparent; border: 0; border-radius: var(--gg-r-sm); cursor: pointer;
+}
+.gg-burger:active { background: var(--gg-surface-2); }
 .gg-role-admin { color: var(--gg-accent-strong); font-weight: 600; }
 
 .gg-logout {
@@ -363,6 +371,13 @@ button:not([class]):disabled { opacity: .45; cursor: not-allowed; }
 .gg-input:focus-visible { outline: none; border-color: var(--gg-accent); box-shadow: 0 0 0 3px var(--gg-ring); }
 .gg-input:disabled { background: var(--gg-surface-2); color: var(--gg-text-3); cursor: not-allowed; }
 
+/* Чекбоксы: единый размер, акцентный цвет, тап-ряд 44px */
+input[type='checkbox'] { width: 20px; height: 20px; accent-color: var(--gg-accent); flex: none; }
+.gg-check {
+  display: flex; align-items: center; gap: 10px;
+  min-height: 44px; cursor: pointer; font-size: 16px;
+}
+
 /* Выпадающие списки — тот же язык, что у .gg-input: рамка, радиус, стрелка.
    .gg-grade (журнал) исключён — у него своя пилюля. */
 select:not(.gg-grade) {
@@ -379,6 +394,19 @@ select:not(.gg-grade) {
 select:not(.gg-grade):hover:not(:disabled) { border-color: rgba(60, 60, 67, 0.32); }
 select:not(.gg-grade):focus-visible { outline: none; border-color: var(--gg-accent); box-shadow: 0 0 0 3px var(--gg-ring); }
 select:not(.gg-grade):disabled { background-color: var(--gg-surface-2); color: var(--gg-text-3); cursor: not-allowed; }
+
+/* Текстовые/date/file инпуты без класса — рамка/радиус те же, что у .gg-input,
+   чтобы date-поля (Журнал, Отчёты) не выглядели нативными рядом со скруглёнными select */
+input:not([type='checkbox']):not([type='radio']) {
+  padding: 10px 12px;
+  background: var(--gg-surface);
+  border: 1px solid var(--gg-border-strong);
+  border-radius: var(--gg-r-sm);
+  transition: border-color var(--gg-t-fast) var(--gg-ease), box-shadow var(--gg-t-fast) var(--gg-ease);
+}
+input:not([type='checkbox']):not([type='radio']):hover:not(:disabled):not(:focus-visible) { border-color: rgba(60, 60, 67, 0.32); }
+input:not([type='checkbox']):not([type='radio']):focus-visible { outline: none; border-color: var(--gg-accent); box-shadow: 0 0 0 3px var(--gg-ring); }
+input:not([type='checkbox']):not([type='radio']):disabled { background: var(--gg-surface-2); color: var(--gg-text-3); cursor: not-allowed; }
 
 /* ---------- Состояния ---------- */
 .gg-error {

@@ -142,24 +142,24 @@ export function AdminAssignments() {
           <div>
             <h2>Классы</h2>
             {classes.map((c) => (
-              <label key={c.id} style={{ display: 'block' }}>
+              <label key={c.id} className="gg-check">
                 <input
                   type="checkbox"
                   checked={checkedClasses.has(c.id)}
                   onChange={() => toggle(checkedClasses, setCheckedClasses, c.id)}
-                />{' '}
+                />
                 {c.name}
               </label>
             ))}
             {classes.length === 0 && <p>Классов нет.</p>}
             <h2>Предметы</h2>
             {subjects.map((s) => (
-              <label key={s.id} style={{ display: 'block' }}>
+              <label key={s.id} className="gg-check">
                 <input
                   type="checkbox"
                   checked={checkedSubjects.has(s.id)}
                   onChange={() => toggle(checkedSubjects, setCheckedSubjects, s.id)}
-                />{' '}
+                />
                 {s.name}
               </label>
             ))}
