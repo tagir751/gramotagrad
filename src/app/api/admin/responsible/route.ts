@@ -17,24 +17,25 @@ import { requireAdmin, logAction } from '@/lib/auth'
 import { idSchema, responsibleSchema } from '@/lib/validators'
 import { handleApiError } from '@/lib/api'
 
-// GET /api/admin/responsible — список ответственных по классам.
+// GET /api/admin/responsible — все классы (с ответственным или без).
 export async function GET() {
   try {
     await requireAdmin()
-    const items = await db.responsibleEducator.findMany({
-      include: {
-        class: { select: { id: true, name: true } },
-        teacher: { select: { id: true, fullName: true } },
-      },
-      orderBy: { class: { name: 'asc' } },
-    })
+    const [classes, respRows] = await Promise.all([
+      db.class.findMany({ orderBy: { name: 'asc' }, select: { id: true, name: true } }),
+      db.responsibleEducator.findMany({ include: { teacher: { select: { fullName: true } } } }),
+    ])
+    const byClass = new Map(respRows.map((r) => [r.classId, r]))
     return NextResponse.json(
-      items.map((r) => ({
-        classId: r.classId,
-        className: r.class.name,
-        teacherId: r.teacherId,
-        teacherFullName: r.teacher?.fullName ?? null,
-      })),
+      classes.map((c) => {
+        const r = byClass.get(c.id)
+        return {
+          classId: c.id,
+          className: c.name,
+          teacherId: r?.teacherId ?? null,
+          teacherFullName: r?.teacher?.fullName ?? null,
+        }
+      }),
     )
   } catch (e) {
     return handleApiError(e)
