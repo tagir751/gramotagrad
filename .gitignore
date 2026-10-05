@@ -14,7 +14,7 @@ next-env.d.ts
 *.db-journal
 *.db-wal
 *.db-shm
-backup/
+/backup/
 prisma/*.db
 
 # env (только пример!)
@@ -23,16 +23,16 @@ prisma/*.db
 
 # logs / test artefacts
 *.log
-test-results/
+/test-results/
 test-results.json
-playwright-report/
+/playwright-report/
 
-# deploy / data / tmp
-deploy/
-data/
-tmp/
-uploads/
-logs/
+# deploy / data / tmp (только в корне! не трогать src/**/logs и т.п.)
+/deploy/
+/data/
+/tmp/
+/uploads/
+/logs/
 
 # archives / heavy media
 *.zip
