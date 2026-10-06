@@ -25,8 +25,9 @@ npm run dev
 1. Локально: `npm run build`, упаковать `.next` (без `dev/`, `cache/`) в zip.
 2. Залить zip в `~/g.tagir75.ru/public_html`, распаковать (`rm -rf .next` перед этим).
 3. `chmod -R u+rwX .` (иначе EACCES на чанках), `cp .next/standalone/server.js ./server.js`.
-4. Хеш externals меняется каждую сборку: `ls .next/standalone/.next/node_modules/@prisma/` →
-   `ln -s client client-<хеш>` в `node_modules/@prisma/`.
+4. Симлинк externals (хеш каждую сборку новый, zip симлинки не везёт):
+   `HASH=$(grep -rhoE 'client-[0-9a-f]+' .next/server/chunks/ | sort -u | head -1)` →
+   `ln -sfn client "node_modules/@prisma/$HASH"`.
 5. `touch tmp/restart.txt`, проверить `https://g.tagir75.ru/login`.
 
 ## Тесты
