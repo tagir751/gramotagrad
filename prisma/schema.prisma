@@ -5,7 +5,7 @@
 // - Индексы + unique на Lesson(date,classId,subjectId)
 // - Cascade delete на связях, updatedAt везде
 // - SQLite файл должен лежать ВНЕ DocumentRoot:
-//   DATABASE_URL="file:../private/gramotagrad.db" (на Beget) или "file:./dev.db" (локально)
+//   DATABASE_URL="file:../gramotagrad.db" (на Beget, рядом как elif.db) или "file:./dev.db" (локально)
 
 generator client {
   provider = "prisma-client-js"

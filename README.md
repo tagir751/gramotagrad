@@ -17,7 +17,7 @@ npm run dev
 ## ENV
 
 - Локально: `DATABASE_URL="file:./dev.db"`
-- На Beget (SQLite ВНЕ DocumentRoot): `DATABASE_URL="file:../private/gramotagrad.db"`
+- На Beget (SQLite ВНЕ DocumentRoot, как elif.db): `DATABASE_URL="file:../gramotagrad.db"`
 - См. `.env.example`. Реальные `.env*`, `*.db`, `backup/` в git не хранятся.
 
 ## Тесты
