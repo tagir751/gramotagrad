@@ -182,10 +182,11 @@ export function AdminTeachers() {
       {teachers.length === 0 ? <p className="gg-empty">Учителей нет</p> : (
         <div className="gg-table-wrap">
           <table className="gg-table">
-            <thead><tr><th>ФИО</th><th>Роль</th><th>Воспит.</th><th>Классов</th><th>Предметов</th><th style={{ width: 200 }}>Действия</th></tr></thead>
+            <thead><tr><th>ID&nbsp;для&nbsp;входа</th><th>ФИО</th><th>Роль</th><th>Воспит.</th><th>Классов</th><th>Предметов</th><th style={{ width: 200 }}>Действия</th></tr></thead>
             <tbody>
               {teachers.map((t) => (
                 <tr key={t.id}>
+                  <td style={{ fontWeight: 700 }}>{t.id}</td>
                   <td>{t.fullName}</td>
                   <td>{t.role}</td>
                   <td>{t.isVospitatel ? 'Да' : 'Нет'}</td>

@@ -44,11 +44,12 @@ export function LoginForm() {
         <img src="/brand/logo-seal.webp" alt="Печать Грамотаград" className="gg-login-seal" />
         <h1 className="gg-login-title">Вход в Грамотаград</h1>
         <label className="gg-field">
-          Логин
+          Логин — ваш числовой ID
           <input
             className="gg-input"
             value={teacherId}
             onChange={(e) => setTeacherId(e.target.value)}
+            placeholder="Например: 2"
             autoComplete="username"
             autoCapitalize="none"
             autoCorrect="off"
