@@ -5,6 +5,20 @@
 const path = require('path')
 const fs = require('fs')
 
+// Boot-лог: если Passenger не поднимает приложение — смотри logs/boot.log.
+const LOG = path.join(__dirname, 'logs', 'boot.log')
+function log(m) {
+  try {
+    const d = path.dirname(LOG)
+    if (!fs.existsSync(d)) fs.mkdirSync(d, { recursive: true })
+    fs.appendFileSync(LOG, new Date().toISOString() + ' ' + m + '\n')
+  } catch (e) {}
+}
+process.on('uncaughtException', function (e) { log('UNCAUGHT: ' + (e && e.stack || e)); process.exit(1) })
+process.on('unhandledRejection', function (e) { log('UNHANDLED: ' + (e && e.stack || e)) })
+
+log('BOOT pid=' + process.pid + ' PORT=' + process.env.PORT + ' HOSTNAME=' + process.env.HOSTNAME)
+
 const envPath = path.join(__dirname, '.env')
 if (fs.existsSync(envPath)) {
   for (const line of fs.readFileSync(envPath, 'utf8').split('\n')) {
@@ -39,6 +53,11 @@ for (const d of ['tmp', 'logs']) {
   if (!fs.existsSync(p)) fs.mkdirSync(p, { recursive: true })
 }
 
-// server.js сам делает chdir(__dirname) — CWD станет корнем приложения,
-// поэтому DATABASE_URL="file:../gramotagrad.db" укажет на ~/g.tagir75.ru/gramotagrad.db
-require(serverPath)
+log('requiring server.js, effective PORT=' + process.env.PORT + ' HOST=' + process.env.HOSTNAME)
+try {
+  require(serverPath)
+  log('server.js loaded ok')
+} catch (e) {
+  log('REQUIRE-FAIL: ' + (e && e.stack || e))
+  process.exit(1)
+}

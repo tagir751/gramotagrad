@@ -20,6 +20,15 @@ npm run dev
 - На Beget (SQLite ВНЕ DocumentRoot, как elif.db): `DATABASE_URL="file:../gramotagrad.db"`
 - См. `.env.example`. Реальные `.env*`, `*.db`, `backup/` в git не хранятся.
 
+## Обновление на Beget (g.tagir75.ru)
+
+1. Локально: `npm run build`, упаковать `.next` (без `dev/`, `cache/`) в zip.
+2. Залить zip в `~/g.tagir75.ru/public_html`, распаковать (`rm -rf .next` перед этим).
+3. `chmod -R u+rwX .` (иначе EACCES на чанках), `cp .next/standalone/server.js ./server.js`.
+4. Хеш externals меняется каждую сборку: `ls .next/standalone/.next/node_modules/@prisma/` →
+   `ln -s client client-<хеш>` в `node_modules/@prisma/`.
+5. `touch tmp/restart.txt`, проверить `https://g.tagir75.ru/login`.
+
 ## Тесты
 
 ```bash
